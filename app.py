@@ -29,11 +29,15 @@ print(f"Available templates: {os.listdir(app.template_folder)}")
 
 # Buat direktori untuk menyimpan file sementara
 SIGNED_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'signed_files')
-os.makedirs(SIGNED_FOLDER, exist_ok=True)
-
-# Tambahkan direktori untuk file yang diunggah
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploaded_files')
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+try:
+    os.makedirs(SIGNED_FOLDER, exist_ok=True)
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    logger.debug(f"Directories created: {SIGNED_FOLDER}, {UPLOAD_FOLDER}")
+except Exception as e:
+    logger.error(f"Error creating directories: {str(e)}")
+    raise
 
 app.config['SIGNED_FOLDER'] = SIGNED_FOLDER
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
