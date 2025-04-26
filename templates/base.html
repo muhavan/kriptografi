@@ -94,6 +94,13 @@
                 font-size: 16px !important; /* Mencegah zoom otomatis di iOS */
             }
         }
+
+        /* Tambahkan aturan ini untuk menyembunyikan menu mobile di desktop */
+        @media (min-width: 769px) {
+            .mobile-menu {
+                display: none; /* Sembunyikan menu mobile di desktop */
+            }
+        }
     </style>
 </head>
 
