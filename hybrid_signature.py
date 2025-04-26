@@ -7,7 +7,6 @@ import time
 import random
 import zlib
 from datetime import datetime
-import qrcode
 from PIL import Image, ImageDraw, ImageEnhance
 from io import BytesIO
 import cv2

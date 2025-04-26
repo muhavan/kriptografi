@@ -4,6 +4,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.asymmetric import rsa, padding, utils
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.exceptions import InvalidSignature
+from flask import Flask, send_from_directory, render_template
 import base64
 import hashlib
 import tempfile
@@ -236,6 +237,10 @@ def caesar_encrypt(message, shift):
 
 def caesar_decrypt(encrypted_message, shift):
     return caesar_encrypt(encrypted_message, -shift)
+
+@app.route('/images/<path:filename>')
+def images(filename):
+    return send_from_directory('images', filename)
 
 @app.route('/')
 def index():
