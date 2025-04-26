@@ -116,4 +116,4 @@ Aplikasi ini dibuat untuk tujuan pendidikan dan demonstrasi. Beberapa catatan ke
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah MIT License.
+Proyek ini dilisensikan ©17.6A.27.
