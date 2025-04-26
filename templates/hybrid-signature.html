@@ -6,38 +6,38 @@
 <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold mb-6 text-center">Tanda Tangan Digital Hybrid RSA-ECC</h1>
     
-    <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+    <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 card">
         <p class="mb-4">Sistem tanda tangan digital hybrid ini mengkombinasikan kekuatan RSA dan ECC untuk memberikan keamanan yang lebih tinggi. Dokumen dienkripsi dengan AES-256, ditandatangani dengan RSA, dan kemudian dihasilkan metadata yang berisi informasi kunci dan tanda tangan.</p>
         <p class="mb-4 text-red-600 font-medium">Catatan: Hanya untuk tujuan demonstrasi. Dalam aplikasi nyata, jangan pernah membagikan kunci privat Anda!</p>
     </div>
     
     <!-- Tabs -->
-    <div class="mb-6">
-        <div class="flex border-b">
-            <button id="sign-tab" class="py-2 px-4 font-medium text-blue-600 border-b-2 border-blue-600">Tandatangani Dokumen</button>
-            <button id="verify-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">Verifikasi Dokumen</button>
-            <button id="decrypt-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">Dekripsi Dokumen</button>
+    <div class="mb-6 overflow-x-auto">
+        <div class="flex border-b min-w-max">
+            <button id="sign-tab" class="py-2 px-4 font-medium text-blue-600 border-b-2 border-blue-600">Tandatangani</button>
+            <button id="verify-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">Verifikasi</button>
+            <button id="decrypt-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">Dekripsi</button>
         </div>
     </div>
     
     <!-- Sign Document Section -->
-    <div id="sign-document-section" class="bg-white p-6 rounded-lg shadow-md card mb-6">
+    <div id="sign-document-section" class="bg-white p-4 sm:p-6 rounded-lg shadow-md card mb-6">
         <h2 class="text-xl font-bold mb-4">Tandatangani Dokumen</h2>
         
         <div class="mb-4">
-            <button id="generate-hybrid-keys-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded btn-primary">Hasilkan Pasangan Kunci RSA & ECC</button>
+            <button id="generate-hybrid-keys-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Hasilkan Pasangan Kunci RSA & ECC</button>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
                 <label for="rsaPrivateKey" class="block mb-2 font-medium">Kunci Privat RSA:</label>
-                <textarea id="rsaPrivateKey" class="w-full p-2 border rounded h-40 font-mono text-xs" placeholder="Kunci privat RSA untuk penandatanganan"></textarea>
-                <p class="text-sm text-gray-600 mt-1">Penting: Harap salin Kunci RSA untuk Deskripsi Dokumen</p>
+                <textarea id="rsaPrivateKey" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Kunci privat RSA untuk penandatanganan"></textarea>
+                <p class="text-sm text-gray-600 mt-1">Penting: Harap salin kunci RSA untuk Deskripsi Dokumen.</p>
             </div>
             
             <div>
                 <label for="eccPrivateKey" class="block mb-2 font-medium">Kunci Privat ECC:</label>
-                <textarea id="eccPrivateKey" class="w-full p-2 border rounded h-40 font-mono text-xs" placeholder="Kunci privat ECC untuk penandatanganan"></textarea>
+                <textarea id="eccPrivateKey" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Kunci privat ECC untuk penandatanganan"></textarea>
             </div>
         </div>
         
@@ -47,7 +47,7 @@
             <p class="text-sm text-gray-600 mt-1">Format yang didukung: PNG, JPG, PDF, DOC, DOCX, TXT</p>
         </div>
         
-        <button id="hybrid-sign-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary">Tandatangani Dokumen</button>
+        <button id="hybrid-sign-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Tandatangani Dokumen</button>
         
         <div id="hybrid-sign-result" class="mt-4 hidden">
             <div id="hybrid-sign-success" class="p-4 bg-green-100 text-green-800 rounded mb-4">
@@ -60,8 +60,8 @@
                     <h3 class="font-medium mb-2">Dokumen:</h3>
                     <p class="mb-2">Dokumen telah dienkripsi dengan AES-256 dan ditandatangani.</p>
                     <div class="flex flex-col space-y-2">
-                        <a id="download-encrypted-link" href="#" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded inline-block btn-primary">Download Dokumen Terenkripsi</a>
-                        <a id="download-keys-metadata-link" href="#" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded inline-block btn-primary">Download File Metadata</a>
+                        <a id="download-encrypted-link" href="#" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded inline-block btn-primary text-center">Download Dokumen Terenkripsi</a>
+                        <a id="download-keys-metadata-link" href="#" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded inline-block btn-primary text-center">Download File Metadata</a>
                     </div>
                 </div>
             </div>
@@ -80,10 +80,10 @@
     </div>
     
     <!-- Verify Document Section -->
-    <div id="verify-document-section" class="bg-white p-6 rounded-lg shadow-md card mb-6 hidden">
+    <div id="verify-document-section" class="bg-white p-4 sm:p-6 rounded-lg shadow-md card mb-6 hidden">
         <h2 class="text-xl font-bold mb-4">Verifikasi Dokumen</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-1 gap-4 mb-4">
             <div>
                 <label for="encryptedFile" class="block mb-2 font-medium">Dokumen Terenkripsi:</label>
                 <input type="file" id="encryptedFile" class="w-full p-2 border rounded">
@@ -97,7 +97,7 @@
             </div>
         </div>
         
-        <button id="hybrid-verify-btn" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded btn-primary">Verifikasi Dokumen</button>
+        <button id="hybrid-verify-btn" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Verifikasi Dokumen</button>
         
         <div id="hybrid-verify-result" class="mt-4 hidden">
             <div id="hybrid-verify-valid" class="p-4 bg-green-100 text-green-800 rounded mb-4 hidden">
@@ -116,14 +116,14 @@
     </div>
     
     <!-- Decrypt Document Section -->
-    <div id="decrypt-document-section" class="bg-white p-6 rounded-lg shadow-md card mb-6 hidden">
+    <div id="decrypt-document-section" class="bg-white p-4 sm:p-6 rounded-lg shadow-md card mb-6 hidden">
         <h2 class="text-xl font-bold mb-4">Dekripsi Dokumen</h2>
         
         <div class="mb-4">
             <p class="text-gray-700">Untuk melihat isi dokumen terenkripsi, Anda memerlukan file terenkripsi, file metadata, dan kunci privat RSA yang digunakan untuk menandatangani dokumen.</p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-1 gap-4 mb-4">
             <div>
                 <label for="encryptedFileDecrypt" class="block mb-2 font-medium">Dokumen Terenkripsi:</label>
                 <input type="file" id="encryptedFileDecrypt" class="w-full p-2 border rounded">
@@ -139,10 +139,10 @@
         
         <div class="mb-4">
             <label for="rsaPrivateKeyDecrypt" class="block mb-2 font-medium">Kunci Privat RSA:</label>
-            <textarea id="rsaPrivateKeyDecrypt" class="w-full p-2 border rounded h-40 font-mono text-xs" placeholder="Masukkan kunci privat RSA yang digunakan untuk menandatangani dokumen"></textarea>
+            <textarea id="rsaPrivateKeyDecrypt" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Masukkan kunci privat RSA yang digunakan untuk menandatangani dokumen"></textarea>
         </div>
         
-        <button id="hybrid-decrypt-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary">Dekripsi Dokumen</button>
+        <button id="hybrid-decrypt-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Dekripsi Dokumen</button>
         
         <div id="hybrid-decrypt-result" class="mt-4 hidden">
             <div id="hybrid-decrypt-success" class="p-4 bg-green-100 text-green-800 rounded mb-4">
@@ -154,11 +154,11 @@
                 <div id="preview-container" class="border p-4 rounded bg-gray-50 min-h-[200px] flex justify-center items-center">
                     <!-- Preview akan ditampilkan di sini -->
                     <p id="no-preview" class="text-gray-500">Preview dokumen akan ditampilkan di sini</p>
-                    <img id="image-preview" class="max-w-full max-h-[400px] hidden" alt="Preview dokumen" />
-                    <pre id="text-preview" class="w-full overflow-auto max-h-[400px] hidden"></pre>
+                    <img id="image-preview" class="max-w-full max-h-[300px] hidden" alt="Preview dokumen" />
+                    <pre id="text-preview" class="w-full overflow-auto max-h-[300px] hidden"></pre>
                 </div>
                 <div class="mt-2">
-                    <a id="download-decrypted-link" href="#" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded inline-block btn-primary">Download Dokumen Asli</a>
+                    <a id="download-decrypted-link" href="#" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded inline-block btn-primary w-full sm:w-auto text-center">Download Dokumen Asli</a>
                 </div>
             </div>
         </div>

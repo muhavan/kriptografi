@@ -6,42 +6,42 @@
 <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold mb-6 text-center">Selamat Datang di Aplikasi Web Kriptografi</h1>
     
-    <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+    <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 card">
         <p class="mb-4">Aplikasi ini mendemonstrasikan berbagai teknik kriptografi:</p>
         <ul class="list-disc pl-6 mb-4">
             <li class="mb-2"><strong>Enkripsi Simetris:</strong> Menggunakan kunci yang sama untuk enkripsi dan dekripsi (Fernet)</li>
             <li class="mb-2"><strong>Enkripsi Asimetris:</strong> Menggunakan sepasang kunci (publik dan privat) untuk komunikasi yang aman (RSA)</li>
-            <li class="mb-2"><strong>Tanda Tangan Hybrid:</strong> Kombinasi RSA dan ECC untuk keamanan tinggi enksripsi dokumen</li>
+            <li class="mb-2"><strong>Tanda Tangan Hybrid:</strong> Kombinasi RSA dan ECC untuk keamanan tinggi</li>
             <li class="mb-2"><strong>Hashing:</strong> Fungsi satu arah yang mengubah data menjadi string dengan ukuran tetap (MD5, SHA-1, SHA-256, SHA-512)</li>
             <li class="mb-2"><strong>Sandi Caesar:</strong> Sandi substitusi sederhana di mana setiap huruf digeser sejumlah posisi tertentu</li>
         </ul>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <a href="/symmetric" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <a href="/symmetric" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
             <h2 class="text-xl font-bold mb-2 text-blue-600">Enkripsi Simetris</h2>
             <p>Enkripsi dan dekripsi pesan menggunakan kunci rahasia bersama.</p>
         </a>
         
-        <a href="/asymmetric" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+        <a href="/asymmetric" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
             <h2 class="text-xl font-bold mb-2 text-green-600">Enkripsi Asimetris</h2>
             <p>Komunikasi aman menggunakan pasangan kunci publik dan privat.</p>
         </a>
         
-        <a href="/hybrid-signature" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+        <a href="/hybrid-signature" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
             <h2 class="text-xl font-bold mb-2 text-purple-600">Tanda Tangan Hybrid</h2>
-            <p>Keamanan tingkat lanjut dengan kombinasi RSA-ECC untuk memberikan keamanan yang lebih tinggi.</p>
+            <p>Keamanan tingkat lanjut dengan kombinasi RSA-ECC.</p>
         </a>
         
-        <a href="/hashing" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+        <a href="/hashing" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
             <h2 class="text-xl font-bold mb-2 text-purple-600">Hashing</h2>
             <p>Hasilkan nilai hash satu arah yang aman dari data Anda.</p>
         </a>
     </div>
     
     <!-- Card Caesar dibawah sendiri dan center -->
-    <div class="flex justify-center mt-6">
-        <a href="/caesar" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card w-full md:w-1/2">
+    <div class="flex justify-center mt-4 sm:mt-6">
+        <a href="/caesar" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card w-full sm:w-1/2">
             <h2 class="text-xl font-bold mb-2 text-red-600 text-center">Sandi Caesar</h2>
             <p class="text-center">Jelajahi sandi substitusi klasik yang digunakan di Roma kuno.</p>
         </a>
