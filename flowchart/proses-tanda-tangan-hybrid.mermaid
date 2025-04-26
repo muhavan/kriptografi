@@ -1,0 +1,33 @@
+flowchart TD
+    A["Mulai"] --> B{"Pilih Operasi"}
+    
+    B -->|Tandatangani| C["Generate Kunci RSA & ECC"]
+    C --> D["Pilih Dokumen"]
+    D --> E["Hitung Hash Dokumen"]
+    E --> F["Tanda Tangani Hash dengan RSA"]
+    F --> G["Generate Kunci AES"]
+    G --> H["Enkripsi Dokumen dengan AES"]
+    H --> I["Enkripsi Kunci AES dengan RSA"]
+    I --> J["Tanda Tangani Data Terenkripsi dengan ECC"]
+    J --> K["Buat File Metadata"]
+    K --> L["Download Dokumen Terenkripsi & Metadata"]
+    
+    B -->|Verifikasi| M["Upload Dokumen Terenkripsi"]
+    M --> N["Upload File Metadata"]
+    N --> O["Verifikasi Tanda Tangan ECC"]
+    O --> P{"Tanda Tangan ECC Valid?"}
+    P -->|Ya| Q["Verifikasi Tanda Tangan RSA"]
+    P -->|Tidak| R["Tampilkan Pesan Error: Dokumen Diubah"]
+    Q --> S{"Tanda Tangan RSA Valid?"}
+    S -->|Ya| T["Tampilkan Pesan: Dokumen Valid"]
+    S -->|Tidak| U["Tampilkan Pesan Error: Hash Tidak Cocok"]
+    
+    B -->|Dekripsi| V["Upload Dokumen Terenkripsi"]
+    V --> W["Upload File Metadata"]
+    W --> X["Input Kunci Privat RSA"]
+    X --> Y["Verifikasi Dokumen"]
+    Y --> Z{"Dokumen Valid?"}
+    Z -->|Ya| AA["Dekripsi Kunci AES dengan RSA"]
+    Z -->|Tidak| AB["Tampilkan Pesan Error: Dokumen Tidak Valid"]
+    AA --> AC["Dekripsi Dokumen dengan AES"]
+    AC --> AD["Tampilkan & Download Dokumen Asli"]

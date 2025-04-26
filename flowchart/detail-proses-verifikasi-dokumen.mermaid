@@ -1,0 +1,17 @@
+flowchart TD
+    A["Mulai"] --> B["Input Dokumen Terenkripsi"]
+    B --> C["Input File Metadata"]
+    C --> D["Baca Dokumen Terenkripsi"]
+    D --> E["Baca Metadata"]
+    E --> F["Ekstrak Kunci Publik ECC & RSA"]
+    F --> G["Ekstrak Tanda Tangan ECC & RSA"]
+    G --> H["Verifikasi Tanda Tangan ECC pada Data Terenkripsi"]
+    H --> I{"Tanda Tangan ECC Valid?"}
+    I -->|Ya| J["Verifikasi Tanda Tangan RSA pada Hash Dokumen"]
+    I -->|Tidak| K["Tampilkan: Dokumen Diubah"]
+    J --> L{"Tanda Tangan RSA Valid?"}
+    L -->|Ya| M["Tampilkan: Dokumen Valid & Asli"]
+    L -->|Tidak| N["Tampilkan: Hash Dokumen Tidak Cocok"]
+    M --> O["Selesai"]
+    K --> O
+    N --> O

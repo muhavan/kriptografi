@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Hashing{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Hashing</h1>
+    
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+        <p class="mb-4">Hashing adalah fungsi satu arah yang mengubah data dengan ukuran apa pun menjadi string dengan ukuran tetap. Ini umumnya digunakan untuk penyimpanan kata sandi, verifikasi integritas data, dan tanda tangan digital.</p>
+        <p class="mb-4 text-yellow-600 font-medium">Catatan: MD5 dan SHA-1 dianggap rusak secara kriptografis dan tidak boleh digunakan untuk aplikasi yang kritis terhadap keamanan.</p>
+    </div>
+    
+    <div class="bg-white p-6 rounded-lg shadow-md card">
+        <div class="mb-4">
+            <label for="message" class="block mb-2 font-medium">Pesan:</label>
+            <textarea id="message" class="w-full p-2 border rounded h-24" placeholder="Masukkan pesan Anda untuk di-hash"></textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="algorithm" class="block mb-2 font-medium">Algoritma Hash:</label>
+            <select id="algorithm" class="w-full p-2 border rounded">
+                <option value="md5">MD5</option>
+                <option value="sha1">SHA-1</option>
+                <option value="sha256" selected>SHA-256</option>
+                <option value="sha512">SHA-512</option>
+            </select>
+        </div>
+        
+        <div class="mb-4">
+            <button id="hash-btn" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded btn-primary">Hasilkan Hash</button>
+        </div>
+        
+        <div>
+            <label for="result" class="block mb-2 font-medium">Hasil Hash:</label>
+            <textarea id="result" class="w-full p-2 border rounded h-12 font-mono text-sm" readonly></textarea>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('hash-btn').addEventListener('click', async () => {
+        const message = document.getElementById('message').value;
+        const algorithm = document.getElementById('algorithm').value;
+        
+        if (!message) {
+            alert('Harap masukkan pesan untuk di-hash');
+            return;
+        }
+        
+        const response = await fetch('/hashing', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: message,
+                algorithm: algorithm
+            })
+        });
+        
+        const data = await response.json();
+        document.getElementById('result').value = data.result;
+    });
+</script>
+{% endblock %}

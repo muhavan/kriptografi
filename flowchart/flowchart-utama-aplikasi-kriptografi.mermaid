@@ -1,0 +1,24 @@
+flowchart TD
+    A["Halaman Utama"] --> B["Enkripsi Simetris"]
+    A --> C["Enkripsi Asimetris"]
+    A --> D["Tanda Tangan Hybrid"]
+    A --> E["Hashing"]
+    A --> F["Sandi Caesar"]
+    
+    B --> B1["Generate Key"]
+    B --> B2["Enkripsi"]
+    B --> B3["Dekripsi"]
+    
+    C --> C1["Generate Key Pair"]
+    C --> C2["Enkripsi dengan Kunci Publik"]
+    C --> C3["Dekripsi dengan Kunci Privat"]
+    
+    D --> D1["Tandatangani Dokumen"]
+    D --> D2["Verifikasi Dokumen"]
+    D --> D3["Dekripsi Dokumen"]
+    
+    E --> E1["Pilih Algoritma Hash"]
+    E --> E2["Generate Hash"]
+    
+    F --> F1["Enkripsi Caesar"]
+    F --> F2["Dekripsi Caesar"]

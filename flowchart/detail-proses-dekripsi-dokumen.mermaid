@@ -1,0 +1,15 @@
+flowchart TD
+    A["Mulai"] --> B["Input Dokumen Terenkripsi"]
+    B --> C["Input File Metadata"]
+    C --> D["Input Kunci Privat RSA"]
+    D --> E["Verifikasi Dokumen"]
+    E --> F{"Dokumen Valid?"}
+    F -->|Tidak| G["Tampilkan: Dokumen Tidak Valid"]
+    F -->|Ya| H["Ekstrak Kunci AES Terenkripsi dari Metadata"]
+    H --> I["Dekripsi Kunci AES dengan Kunci Privat RSA"]
+    I --> J["Dekripsi Dokumen dengan Kunci AES"]
+    J --> K["Tentukan Tipe File"]
+    K --> L["Tampilkan Preview Dokumen"]
+    L --> M["Sediakan Link Download Dokumen Asli"]
+    M --> N["Selesai"]
+    G --> N

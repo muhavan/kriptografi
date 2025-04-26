@@ -1,0 +1,8 @@
+flowchart TD
+    A["Mulai"] --> B["Generate Kunci / Input Kunci"]
+    B --> C["Input Pesan"]
+    C --> D{"Pilih Operasi"}
+    D -->|Enkripsi| E["Enkripsi dengan Fernet"]
+    D -->|Dekripsi| F["Dekripsi dengan Fernet"]
+    E --> G["Tampilkan Hasil Enkripsi"]
+    F --> H["Tampilkan Hasil Dekripsi"]

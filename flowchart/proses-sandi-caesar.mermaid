@@ -1,0 +1,8 @@
+flowchart TD
+    A["Mulai"] --> B["Input Pesan"]
+    B --> C["Set Nilai Pergeseran (1-25)"]
+    C --> D{"Pilih Operasi"}
+    D -->|Enkripsi| E["Geser Huruf ke Kanan"]
+    D -->|Dekripsi| F["Geser Huruf ke Kiri"]
+    E --> G["Tampilkan Hasil Enkripsi"]
+    F --> H["Tampilkan Hasil Dekripsi"]

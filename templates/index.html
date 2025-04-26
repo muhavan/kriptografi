@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Beranda{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Selamat Datang di Aplikasi Web Kriptografi</h1>
+    
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+        <p class="mb-4">Aplikasi ini mendemonstrasikan berbagai teknik kriptografi:</p>
+        <ul class="list-disc pl-6 mb-4">
+            <li class="mb-2"><strong>Enkripsi Simetris:</strong> Menggunakan kunci yang sama untuk enkripsi dan dekripsi (Fernet)</li>
+            <li class="mb-2"><strong>Enkripsi Asimetris:</strong> Menggunakan sepasang kunci (publik dan privat) untuk komunikasi yang aman (RSA)</li>
+            <li class="mb-2"><strong>Tanda Tangan Hybrid:</strong> Kombinasi RSA dan ECC untuk keamanan tinggi dengan QR Code</li>
+            <li class="mb-2"><strong>Hashing:</strong> Fungsi satu arah yang mengubah data menjadi string dengan ukuran tetap (MD5, SHA-1, SHA-256, SHA-512)</li>
+            <li class="mb-2"><strong>Sandi Caesar:</strong> Sandi substitusi sederhana di mana setiap huruf digeser sejumlah posisi tertentu</li>
+        </ul>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="/symmetric" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+            <h2 class="text-xl font-bold mb-2 text-blue-600">Enkripsi Simetris</h2>
+            <p>Enkripsi dan dekripsi pesan menggunakan kunci rahasia bersama.</p>
+        </a>
+        
+        <a href="/asymmetric" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+            <h2 class="text-xl font-bold mb-2 text-green-600">Enkripsi Asimetris</h2>
+            <p>Komunikasi aman menggunakan pasangan kunci publik dan privat.</p>
+        </a>
+        
+        <a href="/hybrid-signature" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+            <h2 class="text-xl font-bold mb-2 text-purple-600">Tanda Tangan Hybrid</h2>
+            <p>Keamanan tingkat lanjut dengan kombinasi RSA-ECC dan QR Code.</p>
+        </a>
+        
+        <a href="/hashing" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+            <h2 class="text-xl font-bold mb-2 text-purple-600">Hashing</h2>
+            <p>Hasilkan nilai hash satu arah yang aman dari data Anda.</p>
+        </a>
+        
+        <a href="/caesar" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
+            <h2 class="text-xl font-bold mb-2 text-red-600">Sandi Caesar</h2>
+            <p>Jelajahi sandi substitusi klasik yang digunakan di Roma kuno.</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Apply translations when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const lang = 'id';
+        const translations = window.appTranslations;
+        
+        if (translations && translations[lang]) {
+            document.getElementById('welcome-title').textContent = translations[lang]['welcome'];
+            document.getElementById('app-description').textContent = translations[lang]['app-description'];
+            document.getElementById('symmetric-desc').textContent = translations[lang]['symmetric-desc'];
+            document.getElementById('asymmetric-desc').textContent = translations[lang]['asymmetric-desc'];
+            document.getElementById('hybrid-signature-desc').textContent = translations[lang]['hybrid-signature-desc'];
+            document.getElementById('hashing-desc').textContent = translations[lang]['hashing-desc'];
+            document.getElementById('caesar-desc').textContent = translations[lang]['caesar-desc'];
+            document.getElementById('symmetric-card-title').textContent = translations[lang]['symmetric-card'];
+            document.getElementById('symmetric-card-desc').textContent = translations[lang]['symmetric-card-desc'];
+            document.getElementById('asymmetric-card-title').textContent = translations[lang]['asymmetric-card'];
+            document.getElementById('asymmetric-card-desc').textContent = translations[lang]['asymmetric-card-desc'];
+            document.getElementById('hybrid-signature-card-title').textContent = translations[lang]['hybrid-signature-card'];
+            document.getElementById('hybrid-signature-card-desc').textContent = translations[lang]['hybrid-signature-card-desc'];
+            document.getElementById('hashing-card-title').textContent = translations[lang]['hashing-card'];
+            document.getElementById('hashing-card-desc').textContent = translations[lang]['hashing-card-desc'];
+            document.getElementById('caesar-card-title').textContent = translations[lang]['caesar-card'];
+            document.getElementById('caesar-card-desc').textContent = translations[lang]['caesar-card-desc'];
+        }
+    });
+</script>
+{% endblock %}
