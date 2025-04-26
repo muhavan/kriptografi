@@ -16,7 +16,6 @@
             --accent-secondary: #1d4ed8;
             --border-color: #e5e7eb;
         }
-        
         .dark {
             --bg-primary: #1f2937;
             --bg-secondary: #111827;
@@ -26,43 +25,41 @@
             --accent-secondary: #60a5fa;
             --border-color: #374151;
         }
-        
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.3s, color 0.3s;
         }
-        
         .card {
             background-color: var(--bg-secondary);
             border-color: var(--border-color);
         }
-        
         .btn-primary {
             background-color: var(--accent-primary);
             color: white;
         }
-        
         .btn-primary:hover {
             background-color: var(--accent-secondary);
         }
-        
-        /* Memastikan input dan textarea selalu memiliki teks hitam */
         input, textarea, select {
             color: #000000 !important;
             background-color: #ffffff !important;
         }
-        
-        /* Memastikan placeholder tetap terlihat */
         input::placeholder, textarea::placeholder {
             color: #6b7280 !important;
         }
     </style>
 </head>
+
 <body class="min-h-screen">
+
+    <!-- Navbar -->
     <nav class="bg-gray-800 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-xl font-bold">Aplikasi Kriptografi</a>
+            <a href="/" class="flex items-center space-x-2 text-xl font-bold">
+                <img src="/images/favicon.png" alt="Logo" class="h-8 w-8">
+                <span>Aplikasi Web Kriptografi</span>
+            </a>
             <div class="flex items-center space-x-4">
                 <a href="/symmetric" class="hover:text-gray-300">Simetris</a>
                 <a href="/asymmetric" class="hover:text-gray-300">Asimetris</a>
@@ -84,38 +81,41 @@
             </div>
         </div>
     </nav>
-    
+
+    <!-- Main Content -->
     <main class="container mx-auto p-4">
         {% block content %}{% endblock %}
     </main>
-    
+
+    <!-- Footer -->
     <footer class="bg-gray-800 text-white p-4 mt-8">
         <div class="container mx-auto text-center">
             <p>Aplikasi Web Kriptografi - Dibuat dengan Python dan Flask</p>
         </div>
     </footer>
-    
-    <script>
-        // Simpan tema saat ini
-        let currentTheme = localStorage.getItem('theme') || 'light';
 
-        // Apply theme
+    <!-- Tombol Scroll to Top -->
+    <button id="scrollToTopBtn" class="fixed bottom-8 right-8 hidden w-12 h-12 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-700 transition">
+        ↑
+    </button>
+
+    <!-- Scripts -->
+    <script>
+        // Theme Toggle
+        let currentTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
         updateThemeIcons();
-        
-        // Theme toggle functionality
+
         document.getElementById('themeToggle').addEventListener('click', function() {
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', currentTheme);
             updateThemeIcons();
         });
-        
-        // Update theme icons based on current theme
+
         function updateThemeIcons() {
             const sunIcon = document.getElementById('sunIcon');
             const moonIcon = document.getElementById('moonIcon');
-            
             if (currentTheme === 'dark') {
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
@@ -124,8 +124,24 @@
                 moonIcon.classList.remove('hidden');
             }
         }
+
+        // Scroll to Top
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                scrollToTopBtn.classList.remove('hidden');
+            } else {
+                scrollToTopBtn.classList.add('hidden');
+            }
+        });
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     </script>
-    
+
     {% block scripts %}{% endblock %}
 </body>
 </html>
