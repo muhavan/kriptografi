@@ -100,10 +100,7 @@ Sandi Caesar adalah teknik enkripsi klasik yang menggeser huruf dalam alfabet.
 - **Flask**: Web framework
 - **Cryptography**: Library untuk enkripsi simetris dan asimetris
 - **ECDSA**: Library untuk tanda tangan digital berbasis kurva eliptik
-- **Hashlib**: Library untuk fungsi hash
-- **QRCode**: Library untuk menghasilkan QR code
-- **OpenCV & pyzbar**: Library untuk membaca QR code
-- **Tailwind CSS**: Framework CSS untuk styling
+- **Hashlib**: Library untuk fungsi hashs
 
 ## Catatan Keamanan
 
