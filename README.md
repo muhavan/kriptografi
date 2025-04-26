@@ -2,7 +2,7 @@
 
 Aplikasi web ini mendemonstrasikan berbagai teknik kriptografi termasuk enkripsi simetris, asimetris, tanda tangan hybrid, hashing, dan sandi Caesar. Aplikasi ini dibuat menggunakan Python dan Flask.
 
-(.images/screenshot.png)
+![screen](./images/kriptografi.png)
 
 ## Persyaratan
 
