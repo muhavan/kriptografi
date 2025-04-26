@@ -31,7 +31,12 @@ print(f"Available templates: {os.listdir(app.template_folder)}")
 SIGNED_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'signed_files')
 os.makedirs(SIGNED_FOLDER, exist_ok=True)
 
+# Tambahkan direktori untuk file yang diunggah
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploaded_files')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 app.config['SIGNED_FOLDER'] = SIGNED_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'doc', 'docx', 'txt'}
 

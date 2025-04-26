@@ -41,12 +41,17 @@
         .btn-primary:hover {
             background-color: var(--accent-secondary);
         }
-        input, textarea, select {
+        input, textarea, select, pre, #text-preview {
             color: #000000 !important;
             background-color: #ffffff !important;
         }
         input::placeholder, textarea::placeholder {
             color: #6b7280 !important;
+        }
+        .dark input, .dark textarea, .dark select, .dark pre, .dark #text-preview {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+            border-color: #374151;
         }
     </style>
 </head>

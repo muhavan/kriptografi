@@ -9,8 +9,6 @@ import zlib
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageEnhance
 from io import BytesIO
-import cv2
-from pyzbar.pyzbar import decode
 import numpy as np
 
 # Untuk RSA
@@ -336,92 +334,6 @@ class HybridSignature:
             "encrypted_data": encrypted_data
         }
     
-    def verify_document(self, encrypted_file_path, qr_code_path, keys_metadata_path=None):
-        """
-        Verify a document using hybrid RSA-ECC approach:
-        1. Read QR code to get metadata
-        2. Get public keys from keys metadata file or QR code
-        3. Verify ECC signature on encrypted document
-        4. Verify RSA signature on document hash
-        5. Decrypt document if verification succeeds
-        """
-        # Read QR code
-        qr_data = self.read_qr_code(qr_code_path)
-        if not qr_data:
-            return {"valid": False, "error": "Could not read QR code"}
-        
-        try:
-            # Try to decompress the data
-            try:
-                decompressed_data = self.decompress_data(base64.b64decode(qr_data))
-                metadata = json.loads(decompressed_data)
-            except:
-                # If decompression fails, try to parse as JSON directly
-                metadata = json.loads(qr_data)
-        except json.JSONDecodeError:
-            return {"valid": False, "error": "Invalid QR code data format"}
-        
-        # Get public keys
-        if keys_metadata_path and os.path.exists(keys_metadata_path):
-            # Read keys from metadata file
-            with open(keys_metadata_path, 'r') as f:
-                keys_metadata = json.load(f)
-            rsa_public_key = keys_metadata.get("rsa_public_key")
-            ecc_public_key = keys_metadata.get("ecc_public_key")
-        else:
-            # If no keys metadata file, check if keys are in the QR code
-            rsa_public_key = metadata.get("rsa_public_key")
-            ecc_public_key = metadata.get("ecc_public_key")
-            
-            if not rsa_public_key or not ecc_public_key:
-                return {"valid": False, "error": "Public keys not found in QR code or keys metadata file"}
-
-        # Read encrypted file
-        with open(encrypted_file_path, "rb") as f:
-            encrypted_data = f.read()
-        
-        # Verify ECC signature
-        ecc_signature = base64.b64decode(metadata["ecc_signature"])
-        ecc_valid = self.verify_with_ecc(encrypted_data, ecc_signature, ecc_public_key)
-        
-        if not ecc_valid:
-            return {
-                "valid": False, 
-                "error": "ECC signature verification failed. Document may have been tampered with."
-            }
-        
-        # Verify RSA signature
-        rsa_signature = base64.b64decode(metadata["rsa_signature"])
-        rsa_valid = self.verify_with_rsa(metadata["doc_hash"], rsa_signature, rsa_public_key)
-        
-        if not rsa_valid:
-            return {
-                "valid": False, 
-                "error": "RSA signature verification failed. Document hash doesn't match."
-            }
-        
-        # If verification succeeds
-        return {
-            "valid": True,
-            "metadata": metadata,
-            "message": "Document signature is valid. This is an authentic document.",
-            "encrypted_data": encrypted_data
-        }
-    
-    def read_qr_code(self, image_path):
-        """Read QR code from image file"""
-        if isinstance(image_path, str):
-            # Read from file path
-            image = cv2.imread(image_path)
-        else:
-            # Convert PIL Image to OpenCV format
-            image = cv2.cvtColor(np.array(image_path), cv2.COLOR_RGB2BGR)
-            
-        decoded_objects = decode(image)
-        if decoded_objects:
-            return decoded_objects[0].data.decode('utf-8')
-        return None
-
     # Tambahkan metode baru untuk dekripsi dokumen
     def decrypt_document(self, encrypted_file_path, keys_metadata, rsa_private_key):
         """
