@@ -2,6 +2,8 @@
 
 Aplikasi Enkripsi File Hybrid adalah solusi keamanan data yang menggabungkan kekuatan dari beberapa algoritma kriptografi untuk memberikan perlindungan maksimal terhadap file-file penting Anda. Dengan mengkombinasikan algoritma enkripsi simetris (AES-256) dan asimetris (RSA dan ECC), aplikasi ini menawarkan keamanan berlapis yang sulit untuk dibobol.
 
+![screen](/images/kriptografi.png)
+
 ## Daftar Isi
 
 - [Fitur Utama](#fitur-utama)
@@ -13,9 +15,6 @@ Aplikasi Enkripsi File Hybrid adalah solusi keamanan data yang menggabungkan kek
 
 - [Keamanan](#keamanan)
 - [Lisensi](#lisensi)
-- [Kontak](#kontak)
-
-
 Enkripsi hybrid mengatasi keterbatasan dari masing-masing jenis enkripsi:
 
 - **Enkripsi simetris** (AES): Cepat dan efisien untuk file besar, tetapi memiliki tantangan dalam pertukaran kunci

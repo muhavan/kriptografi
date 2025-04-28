@@ -35,7 +35,7 @@ except Exception as e:
 app.config['SIGNED_FOLDER'] = SIGNED_FOLDER
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'doc', 'docx', 'txt'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'doc', 'docx', 'txt', 'py', 'html', 'php', 'json', 'js', 'css', 'xml', 'java', 'c', 'cpp', 'cs', 'go', 'rb', 'ts', 'jsx', 'tsx', 'md', 'yml', 'yaml', 'sql', 'sh', 'bat'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
