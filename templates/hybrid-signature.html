@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Tanda Tangan Digital Hybrid{% endblock %}
+{% block title %}Enkripsi File Hybrid{% endblock %}
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center">Tanda Tangan Digital Hybrid RSA-ECC</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">Enkripsi File Hybrid RSA-ECC</h1>
     
     <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 card">
-        <p class="mb-4">Sistem tanda tangan digital hybrid ini mengkombinasikan kekuatan RSA dan ECC untuk memberikan keamanan yang lebih tinggi. Dokumen dienkripsi dengan AES-256, ditandatangani dengan RSA, dan kemudian dihasilkan metadata yang berisi informasi kunci dan tanda tangan.</p>
+        <p class="mb-4">Sistem enkripsi file hybrid ini mengkombinasikan kekuatan RSA dan ECC untuk memberikan keamanan yang lebih tinggi. File dienkripsi dengan AES-256, kunci AES dienkripsi dengan RSA, dan metadata dihasilkan yang berisi informasi kunci dan tanda tangan.</p>
         <p class="mb-4 text-red-600 font-medium">Catatan: Hanya untuk tujuan demonstrasi. Dalam aplikasi nyata, jangan pernah membagikan kunci privat Anda!</p>
     </div>
     
     <!-- Tabs -->
     <div class="mb-6 overflow-x-auto">
         <div class="flex border-b min-w-max">
-            <button id="sign-tab" class="py-2 px-4 font-medium text-blue-600 border-b-2 border-blue-600">Tandatangani</button>
+            <button id="sign-tab" class="py-2 px-4 font-medium text-blue-600 border-b-2 border-blue-600">Enkripsi</button>
             <button id="verify-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">Verifikasi</button>
             <button id="decrypt-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">Dekripsi</button>
         </div>
@@ -22,7 +22,7 @@
     
     <!-- Sign Document Section -->
     <div id="sign-document-section" class="bg-white p-4 sm:p-6 rounded-lg shadow-md card mb-6">
-        <h2 class="text-xl font-bold mb-4">Tandatangani Dokumen</h2>
+        <h2 class="text-xl font-bold mb-4">Enkripsi File</h2>
         
         <div class="mb-4">
             <button id="generate-hybrid-keys-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Hasilkan Pasangan Kunci RSA & ECC</button>
@@ -47,11 +47,11 @@
             <p class="text-sm text-gray-600 mt-1">Format yang didukung: PNG, JPG, PDF, DOC, DOCX, TXT</p>
         </div>
         
-        <button id="hybrid-sign-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Tandatangani Dokumen</button>
+        <button id="hybrid-sign-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Enkripsi File</button>
         
         <div id="hybrid-sign-result" class="mt-4 hidden">
             <div id="hybrid-sign-success" class="p-4 bg-green-100 text-green-800 rounded mb-4">
-                <p id="hybrid-sign-message">Dokumen berhasil ditandatangani dengan metode hybrid RSA-ECC!</p>
+                <p id="hybrid-sign-message">File berhasil dienkripsi dengan metode hybrid RSA-ECC!</p>
                 <p class="mt-2">File metadata berisi kunci publik dan informasi yang diperlukan untuk verifikasi.</p>
             </div>
             
@@ -68,13 +68,13 @@
             
             <div class="mt-4 p-4 bg-yellow-100 text-yellow-800 rounded">
                 <h3 class="font-medium mb-2">Petunjuk Verifikasi:</h3>
-                <p>Untuk memverifikasi dokumen ini, Anda hanya perlu:</p>
+                <p>Untuk memverifikasi file ini, Anda hanya perlu:</p>
                 <ol class="list-decimal pl-5 mt-2">
-                    <li>Menyimpan dokumen terenkripsi dan file metadata</li>
+                    <li>Menyimpan file terenkripsi dan file metadata</li>
                     <li>Pada tab Verifikasi, upload kedua file tersebut</li>
-                    <li>Klik tombol Verifikasi Dokumen</li>
+                    <li>Klik tombol Verifikasi File</li>
                 </ol>
-                <p class="mt-2">Untuk melihat isi dokumen asli, gunakan tab Dekripsi Dokumen.</p>
+                <p class="mt-2">Untuk melihat isi file asli, gunakan tab Dekripsi File.</p>
             </div>
         </div>
     </div>

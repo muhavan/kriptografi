@@ -8,7 +8,7 @@ from hybrid_signature import HybridSignature
 
 # Tambahkan logging untuk membantu debugging
 import logging
-
+    
 # Konfigurasi logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ def index():
 def hybrid_signature():
     logger.debug("Rendering hybrid-signature.html template")
     if request.method == 'POST':
-        # Handle form data for file signing
+        # Handle form data for file encryption
         if not request.is_json:
             action = request.form.get('action')
             
@@ -82,7 +82,7 @@ def hybrid_signature():
                         # Create hybrid signature instance
                         hybrid_signer = HybridSignature()
                         
-                        # Sign the file with hybrid approach
+                        # Encrypt the file with hybrid approach
                         result = hybrid_signer.sign_document(file_path, rsa_private_key, ecc_private_key)
                         
                         # Copy encrypted file to signed folder
@@ -98,7 +98,7 @@ def hybrid_signature():
                         
                         return jsonify({
                             'success': True,
-                            'message': 'File signed successfully with hybrid RSA-ECC approach',
+                            'message': 'File encrypted successfully with hybrid RSA-ECC approach',
                             'encrypted_filename': encrypted_filename,
                             'keys_metadata_filename': keys_metadata_filename,
                             'metadata': result['metadata']

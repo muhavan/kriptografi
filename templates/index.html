@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center">Tanda Tangan Digital Hybrid</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">Enkripsi File Hybrid</h1>
     
     <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
-        <h2 class="text-2xl font-bold mb-4 text-blue-600">Apa itu Tanda Tangan Digital Hybrid?</h2>
+        <h2 class="text-2xl font-bold mb-4 text-blue-600">Apa itu Enkripsi File Hybrid?</h2>
         
-        <p class="mb-4">Tanda tangan digital hybrid adalah pendekatan keamanan tingkat lanjut yang menggabungkan kekuatan dari dua algoritma kriptografi berbeda: <strong>RSA</strong> dan <strong>ECC (Elliptic Curve Cryptography)</strong>. Pendekatan ini memberikan keamanan yang lebih kuat dibandingkan dengan menggunakan satu algoritma saja.</p>
+        <p class="mb-4">Enkripsi file hybrid adalah pendekatan keamanan tingkat lanjut yang menggabungkan kekuatan dari dua algoritma kriptografi berbeda: <strong>RSA</strong> dan <strong>ECC (Elliptic Curve Cryptography)</strong>, serta enkripsi simetris <strong>AES</strong>. Pendekatan ini memberikan keamanan yang lebih kuat dibandingkan dengan menggunakan satu algoritma saja.</p>
         
         <h3 class="text-xl font-bold mb-3 text-blue-600 mt-6">Komponen Utama</h3>
         
@@ -33,16 +33,15 @@
             </div>
         </div>
         
-        <h3 class="text-xl font-bold mb-3 text-blue-600">Cara Kerja Tanda Tangan Digital Hybrid</h3>
+        <h3 class="text-xl font-bold mb-3 text-blue-600">Cara Kerja Enkripsi File Hybrid</h3>
         
         <div class="border-l-4 border-blue-500 pl-4 mb-6">
             <ol class="list-decimal pl-5">
-                <li class="mb-2"><strong>Hashing Dokumen:</strong> Pertama, dokumen diproses melalui fungsi hash SHA-256 untuk menghasilkan nilai hash yang unik.</li>
-                <li class="mb-2"><strong>Tanda Tangan RSA:</strong> Nilai hash dokumen ditandatangani menggunakan kunci privat RSA.</li>
-                <li class="mb-2"><strong>Enkripsi Dokumen:</strong> Dokumen dienkripsi menggunakan algoritma AES-256 dengan kunci simetris yang dibuat secara acak.</li>
+                <li class="mb-2"><strong>Hashing File:</strong> Pertama, file diproses melalui fungsi hash SHA-256 untuk menghasilkan nilai hash yang unik.</li>
+                <li class="mb-2"><strong>Enkripsi File:</strong> File dienkripsi menggunakan algoritma AES-256 dengan kunci simetris yang dibuat secara acak.</li>
                 <li class="mb-2"><strong>Enkripsi Kunci AES:</strong> Kunci AES dienkripsi menggunakan kunci publik RSA.</li>
-                <li class="mb-2"><strong>Tanda Tangan ECC:</strong> Dokumen terenkripsi ditandatangani menggunakan kunci privat ECC.</li>
-                <li class="mb-2"><strong>Metadata:</strong> Semua informasi yang diperlukan untuk verifikasi (kunci publik, tanda tangan, dll.) disimpan dalam file metadata.</li>
+                <li class="mb-2"><strong>Tanda Tangan Digital:</strong> Nilai hash file ditandatangani menggunakan kunci privat RSA dan ECC untuk verifikasi integritas.</li>
+                <li class="mb-2"><strong>Metadata:</strong> Semua informasi yang diperlukan untuk verifikasi dan dekripsi (kunci publik, tanda tangan, dll.) disimpan dalam file metadata.</li>
             </ol>
         </div>
         
@@ -92,9 +91,9 @@
         <div class="flex justify-center">
             <a href="/hybrid-signature" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold text-lg transition-colors duration-300 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                Tandatangani Dokumen Sekarang
+                Enkripsi File Sekarang
             </a>
         </div>
     </div>
