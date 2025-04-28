@@ -210,30 +210,58 @@
     
     // Generate RSA and ECC key pairs
     document.getElementById('generate-hybrid-keys-btn').addEventListener('click', async () => {
-        // Generate RSA keys
-        const rsaResponse = await fetch('/asymmetric', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                action: 'generate'
-            })
-        });
+        // Show loading state
+        const generateBtn = document.getElementById('generate-hybrid-keys-btn');
+        const originalBtnText = generateBtn.textContent;
+        generateBtn.disabled = true;
         
-        const rsaData = await rsaResponse.json();
-        document.getElementById('rsaPrivateKey').value = rsaData.privateKey;
-        
-        // Generate ECC keys
-        const eccResponse = await fetch('/hybrid-signature/generate-ecc', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            // Generate RSA keys
+            const rsaResponse = await fetch('/asymmetric', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'generate'
+                })
+            });
+            
+            if (!rsaResponse.ok) {
+                throw new Error('Failed to generate RSA keys');
             }
-        });
+            
+            const rsaData = await rsaResponse.json();
+            if (rsaData.error) {
+                throw new Error(rsaData.error);
+            }
+            
+            document.getElementById('rsaPrivateKey').value = rsaData.privateKey;
+            
+            // Generate ECC keys
+            const eccResponse = await fetch('/hybrid-signature/generate-ecc', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!eccResponse.ok) {
+                throw new Error('Failed to generate ECC keys');
+            }
+            
+            const eccData = await eccResponse.json();
+            document.getElementById('eccPrivateKey').value = eccData.privateKey;
+            
         
-        const eccData = await eccResponse.json();
-        document.getElementById('eccPrivateKey').value = eccData.privateKey;
+            
+        } catch (error) {
+            alert('Error generating keys: ' + error.message);
+        } finally {
+            // Reset button state
+            generateBtn.textContent = originalBtnText;
+            generateBtn.disabled = false;
+        }
     });
     
     // Sign document with hybrid approach

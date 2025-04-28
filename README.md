@@ -39,25 +39,6 @@ Untuk menjalankan aplikasi ini, Anda memerlukan:
 
 ## Fitur Utama
 
-### 1. Enkripsi Simetris
-
-Enkripsi simetris menggunakan kunci yang sama untuk enkripsi dan dekripsi data.
-
-- Buka halaman Enkripsi Simetris
-- Klik "Buat Kunci" untuk menghasilkan kunci Fernet
-- Masukkan pesan yang ingin dienkripsi
-- Klik "Enkripsi" untuk mengenkripsi pesan
-- Untuk mendekripsi, masukkan teks terenkripsi dan kunci, lalu klik "Dekripsi"
-
-### 2. Enkripsi Asimetris
-
-Enkripsi asimetris menggunakan sepasang kunci (publik dan privat) untuk komunikasi yang aman.
-
-- Buka halaman Enkripsi Asimetris
-- Klik "Buat Pasangan Kunci" untuk menghasilkan kunci RSA
-- Untuk enkripsi, masukkan pesan dan gunakan kunci publik
-- Untuk dekripsi, masukkan teks terenkripsi dan gunakan kunci privat
-
 ### 3. Tanda Tangan Hybrid
 
 Tanda tangan hybrid mengkombinasikan RSA dan ECC untuk keamanan tinggi.
@@ -76,29 +57,10 @@ Tanda tangan hybrid mengkombinasikan RSA dan ECC untuk keamanan tinggi.
 4. Klik "Verifikasi Dokumen"
 5. Sistem akan menampilkan hasil verifikasi
 
-### 4. Hashing
-
-Hashing mengubah data menjadi string dengan ukuran tetap.
-
-- Buka halaman Hashing
-- Masukkan pesan yang ingin di-hash
-- Pilih algoritma hash (MD5, SHA-1, SHA-256, SHA-512)
-- Klik "Hasilkan Hash"
-
-### 5. Sandi Caesar
-
-Sandi Caesar adalah teknik enkripsi klasik yang menggeser huruf dalam alfabet.
-
-- Buka halaman Sandi Caesar
-- Masukkan pesan
-- Atur nilai pergeseran (1-25)
-- Klik "Enkripsi" atau "Dekripsi"
-
 ## Teknologi yang Digunakan
 
 - **Python**: Bahasa pemrograman utama
 - **Flask**: Web framework
-- **Cryptography**: Library untuk enkripsi simetris dan asimetris
 - **ECDSA**: Library untuk tanda tangan digital berbasis kurva eliptik
 - **Hashlib**: Library untuk fungsi hashs
 

@@ -4,77 +4,105 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center">Selamat Datang di Aplikasi Web Kriptografi</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">Tanda Tangan Digital Hybrid</h1>
     
-    <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 card">
-        <p class="mb-4">Aplikasi ini mendemonstrasikan berbagai teknik kriptografi:</p>
-        <ul class="list-disc pl-6 mb-4">
-            <li class="mb-2"><strong>Enkripsi Simetris:</strong> Menggunakan kunci yang sama untuk enkripsi dan dekripsi (Fernet)</li>
-            <li class="mb-2"><strong>Enkripsi Asimetris:</strong> Menggunakan sepasang kunci (publik dan privat) untuk komunikasi yang aman (RSA)</li>
-            <li class="mb-2"><strong>Tanda Tangan Hybrid:</strong> Kombinasi RSA dan ECC untuk keamanan tinggi</li>
-            <li class="mb-2"><strong>Hashing:</strong> Fungsi satu arah yang mengubah data menjadi string dengan ukuran tetap (MD5, SHA-1, SHA-256, SHA-512)</li>
-            <li class="mb-2"><strong>Sandi Caesar:</strong> Sandi substitusi sederhana di mana setiap huruf digeser sejumlah posisi tertentu</li>
-        </ul>
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+        <h2 class="text-2xl font-bold mb-4 text-blue-600">Apa itu Tanda Tangan Digital Hybrid?</h2>
+        
+        <p class="mb-4">Tanda tangan digital hybrid adalah pendekatan keamanan tingkat lanjut yang menggabungkan kekuatan dari dua algoritma kriptografi berbeda: <strong>RSA</strong> dan <strong>ECC (Elliptic Curve Cryptography)</strong>. Pendekatan ini memberikan keamanan yang lebih kuat dibandingkan dengan menggunakan satu algoritma saja.</p>
+        
+        <h3 class="text-xl font-bold mb-3 text-blue-600 mt-6">Komponen Utama</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h4 class="font-bold text-lg mb-2">RSA (Rivest-Shamir-Adleman)</h4>
+                <p>Algoritma kriptografi asimetris yang menggunakan pasangan kunci publik dan privat. RSA didasarkan pada kesulitan memfaktorkan hasil perkalian dua bilangan prima besar.</p>
+                <ul class="list-disc pl-5 mt-2">
+                    <li>Kekuatan: Sangat aman untuk enkripsi kunci</li>
+                    <li>Kelemahan: Relatif lambat untuk data besar</li>
+                </ul>
+            </div>
+            
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h4 class="font-bold text-lg mb-2">ECC (Elliptic Curve Cryptography)</h4>
+                <p>Algoritma kriptografi asimetris yang menggunakan kurva eliptis. ECC menawarkan keamanan yang setara dengan RSA tetapi dengan kunci yang lebih pendek.</p>
+                <ul class="list-disc pl-5 mt-2">
+                    <li>Kekuatan: Kunci lebih pendek, lebih efisien</li>
+                    <li>Kelemahan: Implementasi lebih kompleks</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3 class="text-xl font-bold mb-3 text-blue-600">Cara Kerja Tanda Tangan Digital Hybrid</h3>
+        
+        <div class="border-l-4 border-blue-500 pl-4 mb-6">
+            <ol class="list-decimal pl-5">
+                <li class="mb-2"><strong>Hashing Dokumen:</strong> Pertama, dokumen diproses melalui fungsi hash SHA-256 untuk menghasilkan nilai hash yang unik.</li>
+                <li class="mb-2"><strong>Tanda Tangan RSA:</strong> Nilai hash dokumen ditandatangani menggunakan kunci privat RSA.</li>
+                <li class="mb-2"><strong>Enkripsi Dokumen:</strong> Dokumen dienkripsi menggunakan algoritma AES-256 dengan kunci simetris yang dibuat secara acak.</li>
+                <li class="mb-2"><strong>Enkripsi Kunci AES:</strong> Kunci AES dienkripsi menggunakan kunci publik RSA.</li>
+                <li class="mb-2"><strong>Tanda Tangan ECC:</strong> Dokumen terenkripsi ditandatangani menggunakan kunci privat ECC.</li>
+                <li class="mb-2"><strong>Metadata:</strong> Semua informasi yang diperlukan untuk verifikasi (kunci publik, tanda tangan, dll.) disimpan dalam file metadata.</li>
+            </ol>
+        </div>
+        
+        <h3 class="text-xl font-bold mb-3 text-blue-600">Keunggulan Tanda Tangan Digital Hybrid</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-bold mb-2">Keamanan Ganda</h4>
+                <p>Menggabungkan kekuatan RSA dan ECC, sehingga penyerang harus memecahkan dua algoritma berbeda.</p>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-bold mb-2">Perlindungan Konten</h4>
+                <p>Dokumen dienkripsi, sehingga hanya penerima yang sah yang dapat melihat isinya.</p>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-bold mb-2">Verifikasi Integritas</h4>
+                <p>Memastikan dokumen tidak diubah setelah ditandatangani.</p>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-bold mb-2">Non-Repudiation</h4>
+                <p>Penandatangan tidak dapat menyangkal bahwa mereka telah menandatangani dokumen.</p>
+            </div>
+        </div>
+        
+        <h3 class="text-xl font-bold mb-3 text-blue-600">Aplikasi Praktis</h3>
+        
+        <div class="mb-6">
+            <p>Tanda tangan digital hybrid sangat cocok untuk dokumen-dokumen yang memerlukan tingkat keamanan tinggi, seperti:</p>
+            <ul class="list-disc pl-5 mt-2">
+                <li>Kontrak legal dan perjanjian bisnis</li>
+                <li>Dokumen keuangan dan perbankan</li>
+                <li>Dokumen medis dan kesehatan</li>
+                <li>Dokumen pemerintahan dan keamanan nasional</li>
+                <li>Sertifikat digital dan identitas elektronik</li>
+            </ul>
+        </div>
     </div>
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-        <a href="/symmetric" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
-            <h2 class="text-xl font-bold mb-2 text-blue-600">Enkripsi Simetris</h2>
-            <p>Enkripsi dan dekripsi pesan menggunakan kunci rahasia bersama.</p>
-        </a>
+    <div class="bg-white p-6 rounded-lg shadow-md card">
+        <h2 class="text-2xl font-bold mb-4 text-center">Mulai Gunakan Tanda Tangan Digital Hybrid</h2>
         
-        <a href="/asymmetric" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
-            <h2 class="text-xl font-bold mb-2 text-green-600">Enkripsi Asimetris</h2>
-            <p>Komunikasi aman menggunakan pasangan kunci publik dan privat.</p>
-        </a>
+        <p class="text-center mb-6">Aplikasi ini memungkinkan Anda untuk menandatangani dan memverifikasi dokumen menggunakan pendekatan tanda tangan digital hybrid yang aman.</p>
         
-        <a href="/hybrid-signature" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
-            <h2 class="text-xl font-bold mb-2 text-purple-600">Tanda Tangan Hybrid</h2>
-            <p>Keamanan tingkat lanjut dengan kombinasi RSA-ECC.</p>
-        </a>
-        
-        <a href="/hashing" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card">
-            <h2 class="text-xl font-bold mb-2 text-purple-600">Hashing</h2>
-            <p>Hasilkan nilai hash satu arah yang aman dari data Anda.</p>
-        </a>
+        <div class="flex justify-center">
+            <a href="/hybrid-signature" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold text-lg transition-colors duration-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                Tandatangani Dokumen Sekarang
+            </a>
+        </div>
     </div>
-    
-    <!-- Card Caesar dibawah sendiri dan center -->
-    <div class="flex justify-center mt-4 sm:mt-6">
-        <a href="/caesar" class="block bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow card w-full sm:w-1/2">
-            <h2 class="text-xl font-bold mb-2 text-red-600 text-center">Sandi Caesar</h2>
-            <p class="text-center">Jelajahi sandi substitusi klasik yang digunakan di Roma kuno.</p>
-        </a>
-    </div>    
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-    // Apply translations when the page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        const lang = 'id';
-        const translations = window.appTranslations;
-        
-        if (translations && translations[lang]) {
-            document.getElementById('welcome-title').textContent = translations[lang]['welcome'];
-            document.getElementById('app-description').textContent = translations[lang]['app-description'];
-            document.getElementById('symmetric-desc').textContent = translations[lang]['symmetric-desc'];
-            document.getElementById('asymmetric-desc').textContent = translations[lang]['asymmetric-desc'];
-            document.getElementById('hybrid-signature-desc').textContent = translations[lang]['hybrid-signature-desc'];
-            document.getElementById('hashing-desc').textContent = translations[lang]['hashing-desc'];
-            document.getElementById('caesar-desc').textContent = translations[lang]['caesar-desc'];
-            document.getElementById('symmetric-card-title').textContent = translations[lang]['symmetric-card'];
-            document.getElementById('symmetric-card-desc').textContent = translations[lang]['symmetric-card-desc'];
-            document.getElementById('asymmetric-card-title').textContent = translations[lang]['asymmetric-card'];
-            document.getElementById('asymmetric-card-desc').textContent = translations[lang]['asymmetric-card-desc'];
-            document.getElementById('hybrid-signature-card-title').textContent = translations[lang]['hybrid-signature-card'];
-            document.getElementById('hybrid-signature-card-desc').textContent = translations[lang]['hybrid-signature-card-desc'];
-            document.getElementById('hashing-card-title').textContent = translations[lang]['hashing-card'];
-            document.getElementById('hashing-card-desc').textContent = translations[lang]['hashing-card-desc'];
-            document.getElementById('caesar-card-title').textContent = translations[lang]['caesar-card'];
-            document.getElementById('caesar-card-desc').textContent = translations[lang]['caesar-card-desc'];
-        }
-    });
+    // Tidak ada script khusus yang diperlukan untuk halaman ini
 </script>
 {% endblock %}
