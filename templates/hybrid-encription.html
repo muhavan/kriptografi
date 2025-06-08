@@ -7,7 +7,7 @@
     <h1 class="text-3xl font-bold mb-6 text-center">Enkripsi File Hybrid RSA-ECC</h1>
     
     <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 card">
-        <p class="mb-4">Sistem enkripsi file hybrid ini mengkombinasikan kekuatan RSA dan ECC untuk memberikan keamanan yang lebih tinggi. File dienkripsi dengan AES-256, kunci AES dienkripsi dengan RSA, dan metadata dihasilkan yang berisi informasi kunci dan tanda tangan.</p>
+        <p class="mb-4">Sistem enkripsi file hybrid ini mengkombinasikan kekuatan RSA dan ECC untuk memberikan keamanan yang lebih tinggi. File dienkripsi dengan AES-256, kunci AES dienkripsi dengan RSA, dan metadata dihasilkan yang berisi informasi kunci dan enkripsi file.</p>
         <p class="mb-4 text-red-600 font-medium">Catatan: Hanya untuk tujuan demonstrasi. Dalam aplikasi nyata, jangan pernah membagikan kunci privat Anda!</p>
     </div>
     
@@ -31,18 +31,18 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
                 <label for="rsaPrivateKey" class="block mb-2 font-medium">Kunci Privat RSA:</label>
-                <textarea id="rsaPrivateKey" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Kunci privat RSA untuk penandatanganan"></textarea>
+                <textarea id="rsaPrivateKey" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Kunci privat RSA untuk enkripsi file"></textarea>
                 <p class="text-sm text-gray-600 mt-1">Penting: Harap salin kunci RSA untuk Deskripsi Dokumen.</p>
             </div>
             
             <div>
                 <label for="eccPrivateKey" class="block mb-2 font-medium">Kunci Privat ECC:</label>
-                <textarea id="eccPrivateKey" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Kunci privat ECC untuk penandatanganan"></textarea>
+                <textarea id="eccPrivateKey" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Kunci privat ECC untuk enkripsi file"></textarea>
             </div>
         </div>
         
         <div class="mb-4">
-            <label for="fileToSign" class="block mb-2 font-medium">Pilih Dokumen untuk Ditandatangani:</label>
+            <label for="fileToSign" class="block mb-2 font-medium">Pilih Dokumen untuk dienkripsi:</label>
             <input type="file" id="fileToSign" class="w-full p-2 border rounded" accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt">
             <p class="text-sm text-gray-600 mt-1">Format yang didukung: PNG, JPG, PDF, DOC, DOCX, TXT</p>
         </div>
@@ -101,7 +101,7 @@
         
         <div id="hybrid-verify-result" class="mt-4 hidden">
             <div id="hybrid-verify-valid" class="p-4 bg-green-100 text-green-800 rounded mb-4 hidden">
-                <p id="hybrid-verify-valid-message">Tanda tangan VALID - Dokumen asli dan tidak diubah</p>
+                <p id="hybrid-verify-valid-message">Enkripsi file VALID - Dokumen asli dan tidak diubah</p>
                 <div id="document-metadata" class="mt-2 text-sm">
                     <p id="original-filename"></p>
                     <p id="signature-timestamp"></p>
@@ -109,7 +109,7 @@
             </div>
             
             <div id="hybrid-verify-invalid" class="p-4 bg-red-100 text-red-800 rounded mb-4 hidden">
-                <p id="hybrid-verify-invalid-message">Tanda tangan TIDAK VALID - Dokumen mungkin telah diubah</p>
+                <p id="hybrid-verify-invalid-message">Enkripsi file TIDAK VALID - Dokumen mungkin telah diubah</p>
                 <p id="error-details" class="mt-2 text-sm"></p>
             </div>
         </div>
@@ -120,7 +120,7 @@
         <h2 class="text-xl font-bold mb-4">Dekripsi Dokumen</h2>
         
         <div class="mb-4">
-            <p class="text-gray-700">Untuk melihat isi dokumen terenkripsi, Anda memerlukan file terenkripsi, file metadata, dan kunci privat RSA yang digunakan untuk menandatangani dokumen.</p>
+            <p class="text-gray-700">Untuk melihat isi dokumen terenkripsi, Anda memerlukan file terenkripsi, file metadata, dan kunci privat RSA yang digunakan untuk mengenkripsi dokumen.</p>
         </div>
         
         <div class="grid grid-cols-1 gap-4 mb-4">
@@ -139,7 +139,7 @@
         
         <div class="mb-4">
             <label for="rsaPrivateKeyDecrypt" class="block mb-2 font-medium">Kunci Privat RSA:</label>
-            <textarea id="rsaPrivateKeyDecrypt" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Masukkan kunci privat RSA yang digunakan untuk menandatangani dokumen"></textarea>
+            <textarea id="rsaPrivateKeyDecrypt" class="w-full p-2 border rounded h-32 sm:h-40 font-mono text-xs" placeholder="Masukkan kunci privat RSA yang digunakan untuk mengenkripsi dokumen"></textarea>
         </div>
         
         <button id="hybrid-decrypt-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded btn-primary w-full sm:w-auto">Dekripsi Dokumen</button>
@@ -239,7 +239,7 @@
             document.getElementById('rsaPrivateKey').value = rsaData.privateKey;
             
             // Generate ECC keys
-            const eccResponse = await fetch('/hybrid-signature/generate-ecc', {
+            const eccResponse = await fetch('/hybrid-encription/generate-ecc', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -283,7 +283,7 @@
         // Show loading state
         const signBtn = document.getElementById('hybrid-sign-btn');
         const originalBtnText = signBtn.textContent;
-        signBtn.textContent = 'Menandatangani...';
+        signBtn.textContent = 'mengenkripsi...';
         signBtn.disabled = true;
         
         // Create form data
@@ -294,7 +294,7 @@
         formData.append('eccPrivateKey', eccPrivateKey);
         
         try {
-            const response = await fetch('/hybrid-signature', {
+            const response = await fetch('/hybrid-encription', {
                 method: 'POST',
                 body: formData
             });
@@ -353,7 +353,7 @@
         formData.append('keys_metadata', keysMetadataFileInput.files[0]);
         
         try {
-            const response = await fetch('/hybrid-signature', {
+            const response = await fetch('/hybrid-encription', {
                 method: 'POST',
                 body: formData
             });
@@ -372,7 +372,7 @@
                     
                     // Display metadata
                     document.getElementById('original-filename').textContent = 'Nama File Asli: ' + data.metadata.filename;
-                    document.getElementById('signature-timestamp').textContent = 'Waktu Tanda Tangan: ' + new Date(data.metadata.timestamp).toLocaleString();
+                    document.getElementById('signature-timestamp').textContent = 'Waktu Enkripsi File: ' + new Date(data.metadata.timestamp).toLocaleString();
                 } else {
                     document.getElementById('hybrid-verify-valid').classList.add('hidden');
                     document.getElementById('hybrid-verify-invalid').classList.remove('hidden');
@@ -423,7 +423,7 @@
         formData.append('rsaPrivateKey', rsaPrivateKey);
         
         try {
-            const response = await fetch('/hybrid-signature/decrypt', {
+            const response = await fetch('/hybrid-encription/decrypt', {
                 method: 'POST',
                 body: formData
             });

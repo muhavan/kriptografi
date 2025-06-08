@@ -11,7 +11,7 @@ Aplikasi Enkripsi File Hybrid adalah solusi keamanan data yang menggabungkan kek
 - Python 3.7+
 - Flask (Web framework)
 - Cryptography (Library untuk enkripsi RSA dan AES)
-- ECDSA (Library untuk tanda tangan digital berbasis kurva eliptik)
+- ECDSA (Library untuk enkripsi file digital berbasis kurva eliptik)
 - Hashlib (Library untuk fungsi hash)
 - Pillow (Untuk pemrosesan gambar)
 - NumPy (Untuk operasi matematika)

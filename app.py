@@ -49,9 +49,9 @@ def index():
     logger.debug("Rendering index.html template")
     return render_template('index.html')
 
-@app.route('/hybrid-signature', methods=['GET', 'POST'])
+@app.route('/hybrid-encription', methods=['GET', 'POST'])
 def hybrid_signature():
-    logger.debug("Rendering hybrid-signature.html template")
+    logger.debug("Rendering hybrid-encription.html template")
     if request.method == 'POST':
         # Handle form data for file encryption
         if not request.is_json:
@@ -162,10 +162,10 @@ def hybrid_signature():
                     if os.path.exists(keys_metadata_path):
                         os.remove(keys_metadata_path)
     
-    return render_template('hybrid-signature.html')
+    return render_template('hybrid-encription.html')
 
 # Tambahkan route baru untuk dekripsi dokumen
-@app.route('/hybrid-signature/decrypt', methods=['POST'])
+@app.route('/hybrid-encription/decrypt', methods=['POST'])
 def decrypt_hybrid_document():
     if 'file' not in request.files or 'keys_metadata' not in request.files:
         return jsonify({'error': 'Both encrypted file and metadata file are required'})
@@ -239,7 +239,7 @@ def decrypt_hybrid_document():
         if os.path.exists(keys_metadata_path):
             os.remove(keys_metadata_path)
 
-@app.route('/hybrid-signature/generate-ecc', methods=['POST'])
+@app.route('/hybrid-encription/generate-ecc', methods=['POST'])
 def generate_ecc_keys():
     hybrid_signer = HybridSignature()
     private_key, public_key = hybrid_signer.generate_ecc_keys()
