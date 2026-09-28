@@ -822,6 +822,14 @@
             }
             if (!rsaKey || !eccKey) {
                 showToast(t('toastProvideKeys'), 'error');
+                const genBtn = document.getElementById('generate-hybrid-keys-btn');
+                if (genBtn) {
+                    genBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    genBtn.classList.add('ring-4', 'ring-indigo-400', 'animate-pulse');
+                    setTimeout(() => {
+                        genBtn.classList.remove('ring-4', 'ring-indigo-400', 'animate-pulse');
+                    }, 3000);
+                }
                 return;
             }
 
@@ -930,6 +938,12 @@
             }
             if (!rsaPrivateKey) {
                 showToast(t('toastProvideRsaDecrypt'), 'error');
+                const rsaInput = document.getElementById('rsaPrivateKeyDecrypt');
+                if (rsaInput) {
+                    rsaInput.focus();
+                    rsaInput.classList.add('ring-2', 'ring-rose-500');
+                    setTimeout(() => rsaInput.classList.remove('ring-2', 'ring-rose-500'), 3000);
+                }
                 return;
             }
 

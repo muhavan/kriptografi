@@ -154,12 +154,14 @@ const translations = {
         btnDownloadDecrypted: "Download Dokumen Asli",
         noPreviewText: "Preview dokumen akan muncul di sini setelah didekripsi",
 
-        // Toast Messages
+        // Toast Messages & Action Feedback
         toastKeysGenerated: "Pasangan Kunci RSA-2048 & ECC berhasil dibuat!",
         toastKeysGenFail: "Gagal membuat kunci: ",
         toastSelectFile: "Silakan pilih berkas yang ingin dienkripsi terlebih dahulu!",
         toastKeysRequired: "Kedua kunci privat (RSA dan ECC) wajib diisi atau dibuat!",
+        toastProvideKeys: "Kedua kunci privat (RSA dan ECC) wajib dibuat atau diisi terlebih dahulu! Silakan klik 'Generate Kunci Otomatis' pada Langkah 1A di atas.",
         toastEncryptedSuccess: "Berkas berhasil dienkripsi dan ditandatangani!",
+        toastEncryptSuccess: "Berkas berhasil dienkripsi dan ditandatangani!",
         toastNetworkError: "Terjadi kesalahan jaringan: ",
         toastSelectEncrypted: "Harap pilih dokumen terenkripsi terlebih dahulu!",
         toastSelectMeta: "Harap pilih file metadata kunci (.json)!",
@@ -168,12 +170,32 @@ const translations = {
         toastVerifyError: "Kesalahan verifikasi: ",
         toastSelectDecryptFile: "Pilih dokumen terenkripsi yang ingin didekripsi!",
         toastRsaRequired: "Kunci privat RSA diperlukan untuk membuka kunci AES!",
+        toastProvideRsaDecrypt: "Kunci privat RSA diperlukan untuk membuka enkripsi dokumen!",
         toastDecryptedSuccess: "Dokumen berhasil didekripsi!",
+        toastDecryptSuccess: "Dokumen berhasil didekripsi!",
         toastDecryptedFail: "Gagal mendekripsi: ",
         toastCopied: " disalin ke clipboard!",
         toastPasted: "Kunci berhasil ditempel dari clipboard!",
         toastEmptyCopy: "Tidak ada teks untuk disalin!",
-        toastDownloaded: " berhasil diunduh!"
+        toastDownloaded: " berhasil diunduh!",
+
+        // Button States & Dynamic Metadata Labels
+        btnEncrypting: "Mengenkripsi dengan AES-256 & ECC...",
+        btnVerifying: "Memverifikasi Tanda Tangan...",
+        btnDecrypting: "Mendekripsi Dokumen...",
+        metaFilename: "Nama Berkas Asli",
+        metaTimestamp: "Waktu Enkripsi",
+        backToTop: "Kembali ke Atas",
+
+        // Comparison Spec Details
+        compRsaKeyLabel: "Panjang Kunci:",
+        compRsaKeyVal: "2048 bit",
+        compRsaStandardLabel: "Format Kunci:",
+        compRsaStandardVal: "PKCS#8 / PEM",
+        compEccCurveLabel: "Kurva Standar:",
+        compEccCurveVal: "NIST P-256 (secp256r1)",
+        compEccSigLabel: "Ukuran Tanda Tangan:",
+        compEccSigVal: "Sangat Ringan (64 byte)"
     },
 
     en: {
@@ -326,12 +348,14 @@ const translations = {
         btnDownloadDecrypted: "Download Original Document",
         noPreviewText: "Document preview will appear here once decrypted",
 
-        // Toast Messages
+        // Toast Messages & Action Feedback
         toastKeysGenerated: "RSA-2048 & ECC Keypair generated successfully!",
         toastKeysGenFail: "Failed to generate keys: ",
         toastSelectFile: "Please select a file to encrypt first!",
         toastKeysRequired: "Both RSA and ECC private keys are required!",
+        toastProvideKeys: "Both RSA and ECC private keys must be generated or provided first! Please click 'Generate Keys Automatically' in Step 1A above.",
         toastEncryptedSuccess: "File encrypted and digitally signed successfully!",
+        toastEncryptSuccess: "File encrypted and digitally signed successfully!",
         toastNetworkError: "Network error occurred: ",
         toastSelectEncrypted: "Please select the encrypted file first!",
         toastSelectMeta: "Please select the key metadata file (.json)!",
@@ -340,12 +364,32 @@ const translations = {
         toastVerifyError: "Verification error: ",
         toastSelectDecryptFile: "Please select the encrypted file to decrypt!",
         toastRsaRequired: "RSA private key is required to decrypt the AES key!",
+        toastProvideRsaDecrypt: "RSA private key is required to decrypt the document!",
         toastDecryptedSuccess: "Document decrypted successfully!",
+        toastDecryptSuccess: "Document decrypted successfully!",
         toastDecryptedFail: "Failed to decrypt: ",
         toastCopied: " copied to clipboard!",
         toastPasted: "Key pasted successfully from clipboard!",
         toastEmptyCopy: "No text to copy!",
-        toastDownloaded: " downloaded successfully!"
+        toastDownloaded: " downloaded successfully!",
+
+        // Button States & Dynamic Metadata Labels
+        btnEncrypting: "Encrypting with AES-256 & ECC...",
+        btnVerifying: "Verifying Signature...",
+        btnDecrypting: "Decrypting Document...",
+        metaFilename: "Original Filename",
+        metaTimestamp: "Encryption Time",
+        backToTop: "Back to Top",
+
+        // Comparison Spec Details
+        compRsaKeyLabel: "Key Length:",
+        compRsaKeyVal: "2048 bit",
+        compRsaStandardLabel: "Key Format:",
+        compRsaStandardVal: "PKCS#8 / PEM",
+        compEccCurveLabel: "Standard Curve:",
+        compEccCurveVal: "NIST P-256 (secp256r1)",
+        compEccSigLabel: "Signature Size:",
+        compEccSigVal: "Ultra Compact (64 byte)"
     }
 };
 
