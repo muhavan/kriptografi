@@ -1,257 +1,356 @@
 <!DOCTYPE html>
-<html lang="id" class="light">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enkripsi File Hybrid - {% block title %}{% endblock %}</title>
-    <link rel="icon" href="/images/favicon.ico" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #f3f4f6;
-            --bg-secondary: #ffffff;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #1d4ed8;
-            --border-color: #e5e7eb;
-        }
-        .dark {
-            --bg-primary: #1f2937;
-            --bg-secondary: #111827;
-            --text-primary: #f9fafb;
-            --text-secondary: #d1d5db;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #60a5fa;
-            --border-color: #374151;
-        }
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .card {
-            background-color: var(--bg-secondary);
-            border-color: var(--border-color);
-        }
-        .btn-primary {
-            background-color: var(--accent-primary);
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: var(--accent-secondary);
-        }
-        input, textarea, select, pre, #text-preview {
-            color: #000000 !important;
-            background-color: #ffffff !important;
-        }
-        input::placeholder, textarea::placeholder {
-            color: #6b7280 !important;
-        }
-        .dark input, .dark textarea, .dark select, .dark pre, .dark #text-preview {
-            color: #000000 !important;
-            background-color: #ffffff !important;
-            border-color: #374151;
-        }
-        
-        /* Responsif untuk mobile */
-        @media (max-width: 768px) {
-            .mobile-menu {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0, 0, 0, 0.9);
-                z-index: 50;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-            }
-            
-            .mobile-menu.active {
-                transform: translateX(0);
-            }
-            
-            .mobile-menu a {
-                margin: 1rem 0;
-                font-size: 1.25rem;
-                color: white;
-            }
-            
-            .mobile-menu-close {
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                color: white;
-                font-size: 2rem;
-            }
-            
-            textarea, input[type="text"], input[type="number"] {
-                font-size: 16px !important; /* Mencegah zoom otomatis di iOS */
-            }
-        }
+    <meta name="description" content="Platform Kriptografi Hybrid Modern - Kombinasi Algoritma AES-256, RSA-2048, dan ECC NIST-256p untuk keamanan data maksimal.">
+    <title>{% block title %}Enkripsi File Hybrid{% endblock %} | Kriptografi Next-Gen</title>
+    
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
-        /* Tambahkan aturan ini untuk menyembunyikan menu mobile di desktop */
-        @media (min-width: 769px) {
-            .mobile-menu {
-                display: none; /* Sembunyikan menu mobile di desktop */
-            }
-        }
-    </style>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Custom Modern Design System -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    {% block head %}{% endblock %}
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
 
-    <!-- Navbar -->
-    <nav class="bg-gray-800 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="flex items-center space-x-2 text-xl font-bold">
-                <img src="/images/favicon.png" alt="Logo" class="h-8 w-8">
-                <span class="hidden sm:inline">Enkripsi File Hybrid</span>
-                <span class="sm:hidden">Enkripsi File Hybrid</span>
-            </a>
-            
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-4">
-                <a href="/" class="hover:text-gray-300">Beranda</a>
-                <a href="/hybrid-encription" class="hover:text-gray-300">Enkripsi Hybrid</a>
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Navigation Header (Glassmorphic) -->
+    <header class="navbar-glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
                 
-                <!-- Theme Toggle -->
-                <button id="themeToggle" class="p-1 rounded-full hover:bg-gray-700">
-                    <!-- Sun icon for dark mode -->
-                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <!-- Moon icon for light mode -->
-                    <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center">
-                <button id="themeToggleMobile" class="p-1 mr-2 rounded-full hover:bg-gray-700">
-                    <!-- Sun icon for dark mode -->
-                    <svg id="sunIconMobile" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <!-- Moon icon for light mode -->
-                    <svg id="moonIconMobile" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button>
-                <button id="mobileMenuBtn" class="text-white focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                <!-- Logo & Brand Identity -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <a href="/" class="flex items-center gap-2 sm:gap-3 group text-decoration-none">
+                        <div class="relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-0.5 shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-300">
+                            <div class="w-full h-full bg-slate-900 rounded-[8px] sm:rounded-[10px] flex items-center justify-center overflow-hidden">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span data-i18n="brandName" class="font-extrabold text-base sm:text-xl tracking-tight leading-none text-gray-900 dark:text-white flex items-center gap-1">
+                                Kripto<span class="text-indigo-500">Hybrid</span>
+                            </span>
+                            <span data-i18n="brandSub" class="text-[9px] sm:text-[10px] font-mono tracking-wider text-gray-500 dark:text-gray-400 uppercase mt-0.5 hidden sm:inline">AES • RSA • ECC</span>
+                        </div>
+                    </a>
+
+                    <!-- Status Indicator Badge -->
+                    <div class="hidden lg:flex items-center ml-4">
+                        <div class="status-badge">
+                            <span class="status-dot"></span>
+                            <span data-i18n="engineActive">Engine Aktif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links & Controls -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span data-i18n="navHome">Beranda</span>
+                    </a>
+                    
+                    <a href="/hybrid-encription" class="nav-link {% if request.path == '/hybrid-encription' %}active{% endif %}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span data-i18n="navStudio">Studio Enkripsi</span>
+                    </a>
+
+                    <div class="h-6 w-px bg-gray-200 dark:bg-gray-800 mx-2"></div>
+
+                    <!-- Language Switcher Pill (Desktop) -->
+                    <div class="lang-switcher-pill" title="Pilih Bahasa / Select Language">
+                        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Theme Toggle Button -->
+                    <button id="themeToggle" type="button" class="p-2.5 rounded-xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white bg-gray-100 dark:bg-slate-800/80 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all focus:outline-none" data-i18n-title="toggleTheme" title="Ganti Tema">
+                        <!-- Sun icon -->
+                        <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <!-- Moon icon -->
+                        <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Quick Action Button -->
+                    <a href="/hybrid-encription" class="btn-modern btn-gradient text-xs uppercase tracking-wider py-2.5 px-4 shadow-sm">
+                        <span data-i18n="navStartEncrypt">Mulai Enkripsi</span>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                </nav>
+
+                <!-- Mobile Action Menu & Toggle -->
+                <div class="flex items-center gap-1.5 sm:gap-2 md:hidden">
+                    <!-- Language Switcher Pill (Mobile) -->
+                    <div class="lang-switcher-pill mr-0.5">
+                        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <button id="themeToggleMobile" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400">
+                        <svg id="sunIconMobile" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moonIconMobile" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button id="mobileMenuBtn" type="button" class="p-1.5 sm:p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none" aria-label="Buka Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
-    </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu">
-        <button id="mobileMenuCloseBtn" class="mobile-menu-close">&times;</button>
-        <a href="/" class="hover:text-gray-300">Beranda</a>
-        <a href="/hybrid-encription" class="hover:text-gray-300">Enkripsi Hybrid</a>
-    </div>
+    </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto p-4">
+    <!-- Main Dynamic Workspace -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white p-4 mt-8">
-        <div class="container mx-auto text-center">
-            <p>Aplikasi Enkripsi File Hybrid ©17.6A.27</p>
+    <!-- Modern Cybersecurity Footer -->
+    <footer class="border-t border-gray-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/60 backdrop-blur-md relative z-10 py-8 sm:py-10 mt-12 sm:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center pb-6 sm:pb-8 border-b border-gray-200 dark:border-slate-800/80 text-center md:text-left">
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">
+                            KH
+                        </div>
+                        <span data-i18n="footerTitle" class="font-bold text-base text-gray-900 dark:text-white">Kriptografi File Hybrid</span>
+                    </div>
+                    <p data-i18n="footerDesc" class="text-xs text-gray-500 dark:text-gray-400 mt-2 max-w-sm text-center md:text-left">
+                        Keamanan berlapis tanpa kompromi dengan enkripsi simetris AES-256 dan tanda tangan digital ganda RSA & ECC.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+                    <span class="px-2.5 py-1 text-[11px] font-mono rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/40">AES-256-CBC</span>
+                    <span class="px-2.5 py-1 text-[11px] font-mono rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/40">RSA-2048 OAEP</span>
+                    <span class="px-2.5 py-1 text-[11px] font-mono rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40">ECC NIST-P256</span>
+                    <span class="px-2.5 py-1 text-[11px] font-mono rounded-md bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/40">SHA-256 Hash</span>
+                </div>
+
+                <div class="text-center md:text-right text-xs text-gray-500 dark:text-gray-400">
+                    <p data-i18n="copyright">Dilisensikan © 17.6A.27</p>
+                    <p data-i18n="zeroStorage" class="mt-1 text-gray-400 dark:text-gray-500">Zero Permanent Storage • Client-Verified Security</p>
+                </div>
+            </div>
+            <div data-i18n="footerDisclaimer" class="text-center pt-5 sm:pt-6 text-[11px] sm:text-xs text-gray-400 dark:text-gray-600">
+                Aplikasi Kriptografi File Hybrid — Dibuat untuk privasi dan integritas data tingkat militer.
+            </div>
         </div>
     </footer>
 
-    <!-- Tombol Scroll to Top -->
-    <button id="scrollToTopBtn" class="fixed bottom-8 right-8 hidden w-12 h-12 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-700 transition">
-        ↑
+    <!-- Floating Scroll To Top Button -->
+    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 hidden w-11 h-11 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-xl shadow-indigo-500/25 hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all z-30" data-i18n-title="backToTop" title="Kembali ke Atas" aria-label="Kembali ke Atas">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
     </button>
 
-    <!-- Scripts -->
+    <!-- Mobile Navigation Drawer System (Direct body child to escape containing-block traps) -->
+    <div id="mobileMenuBackdrop" class="mobile-drawer-backdrop" aria-hidden="true"></div>
+    <div id="mobileMenu" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Menu Navigasi Mobile">
+        <div>
+            <!-- Drawer Brand & Close Header -->
+            <div class="flex items-center justify-between pb-5 border-b" style="border-color: var(--border-subtle);">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-md shadow-indigo-500/20">
+                        <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+                            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span data-i18n="brandName" class="font-extrabold text-base tracking-tight leading-none" style="color: var(--text-primary);">
+                            Kripto<span class="text-indigo-500">Hybrid</span>
+                        </span>
+                        <span class="text-[9px] font-mono tracking-wider uppercase mt-0.5" style="color: var(--text-muted);">MENU NAVIGASI</span>
+                    </div>
+                </div>
+                <button id="mobileMenuCloseBtn" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:scale-105 active:scale-95" style="background: var(--bg-surface-subtle); color: var(--text-secondary);" aria-label="Tutup Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Drawer Navigation Links -->
+            <div class="flex flex-col space-y-2 mt-6">
+                <a href="/" class="mobile-drawer-link {% if request.path == '/' %}active{% endif %}">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-indigo-500/10 text-indigo-500 flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <span data-i18n="navHome">Beranda</span>
+                </a>
+                <a href="/hybrid-encription" class="mobile-drawer-link {% if request.path == '/hybrid-encription' %}active{% endif %}">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/10 text-emerald-500 flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <span data-i18n="navStudio">Studio Enkripsi</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Drawer Footer Controls -->
+        <div class="pt-6 border-t space-y-4" style="border-color: var(--border-subtle);">
+            <!-- Language Switcher in Drawer -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: var(--bg-surface-subtle);">
+                <span class="text-xs font-semibold" style="color: var(--text-secondary);">Bahasa / Language</span>
+                <div class="lang-switcher-pill">
+                    <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                    <button type="button" class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+
+            <!-- Theme Switcher in Drawer -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: var(--bg-surface-subtle);">
+                <span data-i18n="toggleTheme" class="text-xs font-semibold" style="color: var(--text-secondary);">Mode Tema</span>
+                <button id="themeToggleDrawer" type="button" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors hover:scale-105 active:scale-95" style="background: var(--bg-surface); border-color: var(--border-medium); color: var(--text-primary);">
+                    <svg class="w-4 h-4 text-amber-500 hidden" id="sunIconDrawer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg class="w-4 h-4 text-indigo-400" id="moonIconDrawer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <span id="themeTextDrawer">Dark Mode</span>
+                </button>
+            </div>
+
+            <a href="/hybrid-encription" class="w-full btn-modern btn-gradient text-center py-3 text-sm flex items-center justify-center">
+                <span data-i18n="navStartEncrypt">Mulai Enkripsi Sekarang</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Global Application Scripts (Translations & Utilities) -->
+    <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
-        // Theme Toggle
-        let currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.classList.toggle('dark', currentTheme === 'dark');
-        updateThemeIcons();
+        // Enhanced Theme Switcher with Persistence
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
+        const themeToggleDrawer = document.getElementById('themeToggleDrawer');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIconMobile = document.getElementById('sunIconMobile');
+        const moonIconMobile = document.getElementById('moonIconMobile');
+        const sunIconDrawer = document.getElementById('sunIconDrawer');
+        const moonIconDrawer = document.getElementById('moonIconDrawer');
+        const themeTextDrawer = document.getElementById('themeTextDrawer');
 
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-        document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+        let currentTheme = localStorage.getItem('theme') || 'dark';
 
-        function toggleTheme() {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', currentTheme);
-            updateThemeIcons();
-        }
-
-        function updateThemeIcons() {
-            const sunIcon = document.getElementById('sunIcon');
-            const moonIcon = document.getElementById('moonIcon');
-            const sunIconMobile = document.getElementById('sunIconMobile');
-            const moonIconMobile = document.getElementById('moonIconMobile');
-            
-            if (currentTheme === 'dark') {
-                sunIcon.classList.remove('hidden');
-                moonIcon.classList.add('hidden');
-                sunIconMobile.classList.remove('hidden');
-                moonIconMobile.classList.add('hidden');
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                sunIcon?.classList.remove('hidden');
+                moonIcon?.classList.add('hidden');
+                sunIconMobile?.classList.remove('hidden');
+                moonIconMobile?.classList.add('hidden');
+                sunIconDrawer?.classList.remove('hidden');
+                moonIconDrawer?.classList.add('hidden');
+                if (themeTextDrawer) themeTextDrawer.textContent = 'Dark Mode';
             } else {
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
-                sunIconMobile.classList.add('hidden');
-                moonIconMobile.classList.remove('hidden');
+                document.documentElement.classList.remove('dark');
+                sunIcon?.classList.add('hidden');
+                moonIcon?.classList.remove('hidden');
+                sunIconMobile?.classList.add('hidden');
+                moonIconMobile?.classList.remove('hidden');
+                sunIconDrawer?.classList.add('hidden');
+                moonIconDrawer?.classList.remove('hidden');
+                if (themeTextDrawer) themeTextDrawer.textContent = 'Light Mode';
             }
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
         }
 
-        // Mobile Menu
+        applyTheme(currentTheme);
+
+        function handleThemeToggle() {
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        themeToggle?.addEventListener('click', handleThemeToggle);
+        themeToggleMobile?.addEventListener('click', handleThemeToggle);
+        themeToggleDrawer?.addEventListener('click', handleThemeToggle);
+
+        // Mobile Menu Drawer Control
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenuCloseBtn = document.getElementById('mobileMenuCloseBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-        });
-        
-        mobileMenuCloseBtn.addEventListener('click', function() {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = ''; // Re-enable scrolling
-        });
-        
-        // Close mobile menu when clicking on a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
+        const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+        function openMobileMenu() {
+            mobileMenuBackdrop?.classList.add('active');
+            mobileMenu?.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenuBackdrop?.classList.remove('active');
+            mobileMenu?.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn?.addEventListener('click', openMobileMenu);
+        mobileMenuCloseBtn?.addEventListener('click', closeMobileMenu);
+        mobileMenuBackdrop?.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking navigation link
+        document.querySelectorAll('.mobile-drawer-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
 
-        // Scroll to Top
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMobileMenu();
+        });
+
+        // Scroll to Top Listener
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 100) {
-                scrollToTopBtn.classList.remove('hidden');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 250) {
+                scrollToTopBtn?.classList.remove('hidden');
+                scrollToTopBtn?.classList.add('flex');
             } else {
-                scrollToTopBtn.classList.add('hidden');
+                scrollToTopBtn?.classList.add('hidden');
+                scrollToTopBtn?.classList.remove('flex');
             }
         });
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+
+        scrollToTopBtn?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 

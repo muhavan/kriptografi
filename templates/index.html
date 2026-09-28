@@ -1,107 +1,281 @@
 {% extends 'base.html' %}
 
-{% block title %}Beranda{% endblock %}
+{% block title %}Beranda & Arsitektur{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center">Enkripsi File Hybrid</h1>
-    
-    <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
-        <h2 class="text-2xl font-bold mb-4 text-blue-600">Apa itu Enkripsi File Hybrid?</h2>
-        
-        <p class="mb-4">Enkripsi file hybrid adalah pendekatan keamanan tingkat lanjut yang menggabungkan kekuatan dari dua algoritma kriptografi berbeda: <strong>RSA</strong> dan <strong>ECC (Elliptic Curve Cryptography)</strong>, serta enkripsi simetris <strong>AES</strong>. Pendekatan ini memberikan keamanan yang lebih kuat dibandingkan dengan menggunakan satu algoritma saja.</p>
-        
-        <h3 class="text-xl font-bold mb-3 text-blue-600 mt-6">Komponen Utama</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div class="border border-gray-200 rounded-lg p-4">
-                <h4 class="font-bold text-lg mb-2">RSA (Rivest-Shamir-Adleman)</h4>
-                <p>Algoritma kriptografi asimetris yang menggunakan pasangan kunci publik dan privat. RSA didasarkan pada kesulitan memfaktorkan hasil perkalian dua bilangan prima besar.</p>
-                <ul class="list-disc pl-5 mt-2">
-                    <li>Kekuatan: Sangat aman untuk enkripsi kunci</li>
-                    <li>Kelemahan: Relatif lambat untuk data besar</li>
-                </ul>
-            </div>
-            
-            <div class="border border-gray-200 rounded-lg p-4">
-                <h4 class="font-bold text-lg mb-2">ECC (Elliptic Curve Cryptography)</h4>
-                <p>Algoritma kriptografi asimetris yang menggunakan kurva eliptis. ECC menawarkan keamanan yang setara dengan RSA tetapi dengan kunci yang lebih pendek.</p>
-                <ul class="list-disc pl-5 mt-2">
-                    <li>Kekuatan: Kunci lebih pendek, lebih efisien</li>
-                    <li>Kelemahan: Implementasi lebih kompleks</li>
-                </ul>
-            </div>
+<div class="space-y-16 sm:space-y-24">
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="text-center pt-4 sm:pt-10 relative">
+        <!-- Glowing Top Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs sm:text-sm font-semibold tracking-wide uppercase mb-6 animate-pulse">
+            <span class="w-2 h-2 rounded-full bg-indigo-500 shadow-sm shadow-indigo-500"></span>
+            <span data-i18n="heroBadge">Military-Grade Multi-Layer Cryptography</span>
         </div>
-        
-        <h3 class="text-xl font-bold mb-3 text-blue-600">Cara Kerja Enkripsi File Hybrid</h3>
-        
-        <div class="border-l-4 border-blue-500 pl-4 mb-6">
-            <ol class="list-decimal pl-5">
-                <li class="mb-2"><strong>Hashing File:</strong> Pertama, file diproses melalui fungsi hash SHA-256 untuk menghasilkan nilai hash yang unik.</li>
-                <li class="mb-2"><strong>Enkripsi File:</strong> File dienkripsi menggunakan algoritma AES-256 dengan kunci simetris yang dibuat secara acak.</li>
-                <li class="mb-2"><strong>Enkripsi Kunci AES:</strong> Kunci AES dienkripsi menggunakan kunci publik RSA.</li>
-                <li class="mb-2"><strong>Enkripsi File Digital:</strong> Nilai hash file dienkripsi menggunakan kunci privat RSA dan ECC untuk verifikasi integritas.</li>
-                <li class="mb-2"><strong>Metadata:</strong> Semua informasi yang diperlukan untuk verifikasi dan dekripsi (kunci publik, enkripsi , dll.) disimpan dalam file metadata.</li>
-            </ol>
-        </div>
-        
-        <h3 class="text-xl font-bold mb-3 text-blue-600">Keunggulan Enkripsi File Hybrid</h3>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div class="bg-blue-50 p-4 rounded-lg text-black">
-                <h4 class="font-bold mb-2">Keamanan Ganda</h4>
-                <p>Menggabungkan kekuatan RSA dan ECC, sehingga penyerang harus memecahkan dua algoritma berbeda.</p>
-            </div>
-            
-            <div class="bg-blue-50 p-4 rounded-lg text-black">
-                <h4 class="font-bold mb-2">Perlindungan Konten</h4>
-                <p>Dokumen dienkripsi, sehingga hanya penerima yang sah yang dapat melihat isinya.</p>
-            </div>
-            
-            <div class="bg-blue-50 p-4 rounded-lg text-black">
-                <h4 class="font-bold mb-2">Verifikasi Integritas</h4>
-                <p>Memastikan dokumen tidak diubah setelah ditandatangani.</p>
-            </div>
-            
-            <div class="bg-blue-50 p-4 rounded-lg text-black">
-                <h4 class="font-bold mb-2">Non-Repudiation</h4>
-                <p>Penandatangan tidak dapat menyangkal bahwa mereka telah menandatangani dokumen.</p>
-            </div>
-        </div>
-        
-        <h3 class="text-xl font-bold mb-3 text-blue-600">Aplikasi Praktis</h3>
-        
-        <div class="mb-6">
-            <p>Enkripsi File Hybrid sangat cocok untuk dokumen-dokumen yang memerlukan tingkat keamanan tinggi, seperti:</p>
-            <ul class="list-disc pl-5 mt-2">
-                <li>Kontrak legal dan perjanjian bisnis</li>
-                <li>Dokumen keuangan dan perbankan</li>
-                <li>Dokumen medis dan kesehatan</li>
-                <li>Dokumen pemerintahan dan keamanan nasional</li>
-                <li>Sertifikat digital dan identitas elektronik</li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="bg-white p-6 rounded-lg shadow-md card">
-        <h2 class="text-2xl font-bold mb-4 text-center">Mulai Gunakan Enkripsi File Hybrid</h2>
-        
-        <p class="text-center mb-6">Aplikasi ini memungkinkan Anda untuk menandatangani dan memverifikasi dokumen menggunakan pendekatan Enkripsi File Hybrid yang aman.</p>
-        
-        <div class="flex justify-center">
-            <a href="/hybrid-encription" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold text-lg transition-colors duration-300 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+
+        <!-- Main Headline -->
+        <h1 class="text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none px-2 sm:px-0 break-words">
+            <span data-i18n="heroTitle1">Keamanan Data Mutlak dengan</span> <br class="hidden sm:inline">
+            <span data-i18n="heroTitle2" class="text-gradient-primary">Enkripsi Hybrid Berlapis</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p data-i18n="heroDesc" class="mt-4 sm:mt-6 text-sm sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-2">
+            Kombinasi superior dari kecepatan enkripsi simetris <strong>AES-256</strong> serta kekuatan proteksi asimetris ganda <strong>RSA-2048</strong> dan <strong>ECC NIST-P256</strong>.
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2">
+            <a href="/hybrid-encription" class="w-full sm:w-auto btn-modern btn-gradient text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-xl shadow-indigo-500/20">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
-                Enkripsi File Sekarang
+                <span data-i18n="ctaStudio">Buka Studio Enkripsi</span>
+            </a>
+
+            <a href="#arsitektur" class="w-full sm:w-auto btn-modern btn-secondary text-sm sm:text-base px-6 sm:px-7 py-3 sm:py-3.5">
+                <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span data-i18n="ctaArchitecture">Pelajari Cara Kerja</span>
             </a>
         </div>
-    </div>
-</div>
-{% endblock %}
 
-{% block scripts %}
-<script>
-    // Tidak ada script khusus yang diperlukan untuk halaman ini
-</script>
+        <!-- Metrics Strip -->
+        <div class="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-gray-200 dark:border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto text-left">
+            <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                <span class="block text-xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 font-mono">256-bit</span>
+                <span data-i18n="metricAes" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">AES Simetris CBC</span>
+            </div>
+            <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                <span class="block text-xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400 font-mono">2048-bit</span>
+                <span data-i18n="metricRsa" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">RSA Asimetris OAEP</span>
+            </div>
+            <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                <span class="block text-xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">NIST-256</span>
+                <span data-i18n="metricEcc" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">Kurva Eliptik ECDSA</span>
+            </div>
+            <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                <span class="block text-xl sm:text-3xl font-extrabold text-cyan-600 dark:text-cyan-400 font-mono">SHA-256</span>
+                <span data-i18n="metricHash" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">Hashing Integritas</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         INTERACTIVE PIPELINE VISUALIZATION
+         ========================================== -->
+    <section id="arsitektur" class="crypto-card p-4 sm:p-10 border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <span data-i18n="pipelineTag" class="text-xs font-mono font-bold tracking-widest text-indigo-500 uppercase">Alur Pemrosesan Data</span>
+            <h2 data-i18n="pipelineTitle" class="text-xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1">
+                Bagaimana Enkripsi Hybrid Bekerja?
+            </h2>
+            <p data-i18n="pipelineSubtitle" class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 sm:mt-3">
+                File Anda melalui 4 lapis pengamanan kriptografis secara otomatis sebelum disimpan atau dikirim.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 relative">
+            
+            <!-- Step 1 -->
+            <div class="pipeline-step">
+                <div class="step-num-badge">1</div>
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 data-i18n="step1Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">1. Hashing Dokumen</h3>
+                <p data-i18n="step1Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                    File diproses dengan fungsi <strong>SHA-256</strong> untuk menghasilkan sidik jari digital (hash) 256-bit unik yang mewakili integritas file asli.
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="pipeline-step">
+                <div class="step-num-badge">2</div>
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h3 data-i18n="step2Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">2. Enkripsi AES-256</h3>
+                <p data-i18n="step2Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                    Seluruh isi payload dokumen dienkripsi super cepat menggunakan kunci simetris <strong>AES-256 CBC</strong> acak yang dibuat dinamis saat itu juga.
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="pipeline-step">
+                <div class="step-num-badge">3</div>
+                <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                    </svg>
+                </div>
+                <h3 data-i18n="step3Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">3. Bungkus Kunci RSA</h3>
+                <p data-i18n="step3Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                    Kunci AES rahasia dienkripsi dengan kunci publik <strong>RSA-2048 OAEP</strong>. Hanya pemilik kunci privat RSA yang bisa membuka kunci AES tersebut.
+                </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="pipeline-step">
+                <div class="step-num-badge">4</div>
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 data-i18n="step4Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">4. Tanda Tangan ECC</h3>
+                <p data-i18n="step4Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                    File terenkripsi ditandatangani dengan kunci privat <strong>ECC (ECDSA)</strong> untuk menjamin autentikasi asal, non-repudiation, dan proteksi dari manipulasi.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         ALGORITHM COMPARISON CARDS
+         ========================================== -->
+    <section>
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12 px-2">
+            <span data-i18n="compTag" class="text-xs font-mono font-bold tracking-widest text-emerald-500 uppercase">Perbandingan Teknologi</span>
+            <h2 data-i18n="compTitle" class="text-xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1">
+                Kekuatan Tiga Pilar Kriptografi
+            </h2>
+            <p data-i18n="compDesc" class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 sm:mt-3">
+                Setiap algoritma memiliki keunggulan khusus yang saling melengkapi dalam sistem hybrid ini.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
+            
+            <!-- AES Card -->
+            <div class="crypto-card p-4 sm:p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3 sm:mb-4">
+                        <span class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">Simetris</span>
+                        <span class="text-xs font-mono text-gray-400">256-Bit</span>
+                    </div>
+                    <h3 data-i18n="compAesTitle" class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">AES (Advanced Encryption Standard)</h3>
+                    <p data-i18n="compAesDesc" class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
+                        Standar enkripsi data yang diadopsi pemerintah AS. Ideal untuk mengenkripsi file berukuran besar secara cepat tanpa membebani performa memori.
+                    </p>
+                    <div class="space-y-2 pt-3 sm:pt-4 border-t border-gray-100 dark:border-slate-800">
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compAesSpeedLabel" class="text-gray-500">Kecepatan Enkripsi:</span>
+                            <span data-i18n="compAesSpeedVal" class="font-bold text-emerald-500">Sangat Cepat (~Gbps)</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compAesSizeLabel" class="text-gray-500">Ukuran Ciphertext:</span>
+                            <span data-i18n="compAesSizeVal" class="font-bold text-gray-700 dark:text-gray-300">Setara Plaintext</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compAesRoleLabel" class="text-gray-500">Peran Sistem:</span>
+                            <span data-i18n="compAesRoleVal" class="font-bold text-cyan-500">Enkripsi Payload File</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RSA Card -->
+            <div class="crypto-card p-4 sm:p-6 flex flex-col justify-between border-indigo-500/30">
+                <div>
+                    <div class="flex items-center justify-between mb-3 sm:mb-4">
+                        <span class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">Asimetris</span>
+                        <span class="text-xs font-mono text-gray-400">2048-Bit</span>
+                    </div>
+                    <h3 data-i18n="compRsaTitle" class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">RSA (Rivest-Shamir-Adleman)</h3>
+                    <p data-i18n="compRsaDesc" class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
+                        Algoritma berbasis faktorisasi bilangan prima raksasa. Menghilangkan kebutuhan bertukar kunci simetris di saluran publik tanpa rasa takut disadap.
+                    </p>
+                    <div class="space-y-2 pt-3 sm:pt-4 border-t border-gray-100 dark:border-slate-800">
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compRsaSecLabel" class="text-gray-500">Kekuatan Keamanan:</span>
+                            <span data-i18n="compRsaSecVal" class="font-bold text-emerald-500">Standar Perbankan</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compRsaProtLabel" class="text-gray-500">Proteksi Kunci:</span>
+                            <span data-i18n="compRsaProtVal" class="font-bold text-indigo-500">Kunci Publik & Privat</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compRsaRoleLabel" class="text-gray-500">Peran Sistem:</span>
+                            <span data-i18n="compRsaRoleVal" class="font-bold text-indigo-500">Enkripsi Kunci AES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECC Card -->
+            <div class="crypto-card p-4 sm:p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3 sm:mb-4">
+                        <span class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">Kurva Eliptik</span>
+                        <span class="text-xs font-mono text-gray-400">NIST P-256</span>
+                    </div>
+                    <h3 data-i18n="compEccTitle" class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">ECC (Elliptic Curve Cryptography)</h3>
+                    <p data-i18n="compEccDesc" class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
+                        Generasi modern kriptografi asimetris dengan panjang kunci lebih ringkas namun kekuatan matematis setara RSA 3072-bit.
+                    </p>
+                    <div class="space-y-2 pt-3 sm:pt-4 border-t border-gray-100 dark:border-slate-800">
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compEccEffLabel" class="text-gray-500">Efisiensi Signature:</span>
+                            <span data-i18n="compEccEffVal" class="font-bold text-emerald-500">Sangat Ringkas (64-byte)</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compEccStrLabel" class="text-gray-500">Kekuatan Kunci:</span>
+                            <span data-i18n="compEccStrVal" class="font-bold text-gray-700 dark:text-gray-300">Ultra Tinggi</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span data-i18n="compEccRoleLabel" class="text-gray-500">Peran Sistem:</span>
+                            <span data-i18n="compEccRoleVal" class="font-bold text-emerald-500">Tanda Tangan Integritas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         CALL TO ACTION BANNER
+         ========================================== -->
+    <section class="crypto-card p-6 sm:p-12 relative overflow-hidden bg-gradient-to-r from-indigo-900/90 via-slate-900 to-slate-900 text-white border border-indigo-500/30">
+        <div class="relative z-10 max-w-2xl">
+            <span data-i18n="ctaCardTag" class="px-3 py-1 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+                Mulai Sekarang
+            </span>
+            <h2 data-i18n="ctaCardTitle" class="text-xl sm:text-4xl font-extrabold text-white mt-3 sm:mt-4 leading-tight">
+                Amankan Berkas Rahasia Anda dalam Hitungan Detik
+            </h2>
+            <p data-i18n="ctaCardDesc" class="text-xs sm:text-base text-indigo-200/80 mt-2 sm:mt-3 leading-relaxed">
+                Hasilkan pasangan kunci RSA & ECC secara instan, upload dokumen apa pun (dokumen bisnis, kontrak hukum, sertifikat, atau gambar rahasia), dan download paket terenkripsi yang aman.
+            </p>
+            <div class="mt-6 sm:mt-8 flex flex-wrap gap-4">
+                <a href="/hybrid-encription" class="w-full sm:w-auto btn-modern btn-gradient text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-lg text-center">
+                    <span data-i18n="ctaCardBtn">Mulai Enkripsi File</span>
+                    <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Decorative Background Lock Graphic -->
+        <div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none hidden lg:block">
+            <svg class="w-96 h-96 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a2 2 0 110-4 2 2 0 010 4z"/>
+            </svg>
+        </div>
+    </section>
+
+</div>
 {% endblock %}

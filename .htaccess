@@ -1,0 +1,21 @@
+# ==========================================
+# Konfigurasi Apache / LiteSpeed untuk Hostinger
+# ==========================================
+
+# Nonaktifkan browsing direktori
+Options -Indexes
+
+# Proteksi file sensitif dari akses browser langsung
+<FilesMatch "(^\.env|^\.git|requirements\.txt|config\.py|hybrid_signature\.py|\.py[cod])$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Proteksi folder upload dan signed dari eksekusi skrip berbahaya
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect ke HTTPS jika SSL sudah aktif (Opsional, hapus komentar # jika ingin paksa HTTPS)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
