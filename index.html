@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Platform Kriptografi Hybrid Modern - Kombinasi Algoritma AES-256, RSA-2048, dan ECC NIST-256p untuk keamanan data maksimal.">
+    <title>Beranda & Arsitektur | KriptoHybrid</title>
+    
+    <link rel="icon" href="static/images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="static/images/favicon.png">
+
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Custom Modern Design System -->
+    <link href="static/css/style.css" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Navigation Header (Glassmorphic) -->
+    <header class="navbar-glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                
+                <!-- Logo & Brand Identity -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <a href="index.html" class="flex items-center gap-2 sm:gap-3 group text-decoration-none">
+                        <div class="relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-0.5 shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-300">
+                            <div class="w-full h-full bg-slate-900 rounded-[8px] sm:rounded-[10px] flex items-center justify-center overflow-hidden">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span data-i18n="brandName" class="font-extrabold text-base sm:text-xl tracking-tight leading-none text-gray-900 dark:text-white flex items-center gap-1">
+                                Kripto<span class="text-indigo-500">Hybrid</span>
+                            </span>
+                            <span data-i18n="brandSub" class="text-[9px] sm:text-[10px] font-mono tracking-wider text-gray-500 dark:text-gray-400 uppercase mt-0.5 hidden sm:inline">AES • RSA • ECC</span>
+                        </div>
+                    </a>
+
+                    <!-- Status Indicator Badge -->
+                    <div class="hidden lg:flex items-center ml-4">
+                        <div class="status-badge">
+                            <span class="status-dot"></span>
+                            <span data-i18n="engineActive">Engine Aktif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links & Controls -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="index.html" class="nav-link active">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span data-i18n="navHome">Beranda</span>
+                    </a>
+                    
+                    <a href="hybrid-encription.html" class="nav-link">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span data-i18n="navStudio">Studio Enkripsi</span>
+                    </a>
+
+                    <div class="h-6 w-px bg-gray-200 dark:bg-gray-800 mx-2"></div>
+
+                    <!-- Language Switcher Pill (Desktop) -->
+                    <div class="lang-switcher-pill" title="Pilih Bahasa / Select Language">
+                        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Theme Toggle Button -->
+                    <button id="themeToggle" type="button" class="p-2.5 rounded-xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white bg-gray-100 dark:bg-slate-800/80 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all focus:outline-none" data-i18n-title="toggleTheme" title="Ganti Tema">
+                        <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Quick Action Button -->
+                    <a href="hybrid-encription.html" class="btn-modern btn-gradient text-xs uppercase tracking-wider py-2.5 px-4 shadow-sm">
+                        <span data-i18n="navStartEncrypt">Mulai Enkripsi</span>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                </nav>
+
+                <!-- Mobile Action Menu & Toggle -->
+                <div class="flex items-center gap-1.5 sm:gap-2 md:hidden">
+                    <!-- Language Switcher Pill (Mobile) -->
+                    <div class="lang-switcher-pill mr-0.5">
+                        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <button id="themeToggleMobile" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400" aria-label="Ganti Tema">
+                        <svg id="sunIconMobile" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moonIconMobile" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button id="mobileMenuBtn" type="button" class="p-1.5 sm:p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none" aria-label="Buka Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Workspace -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
+        <div class="space-y-16 sm:space-y-24">
+
+            <!-- ==========================================
+                 HERO SECTION
+                 ========================================== -->
+            <section class="text-center pt-4 sm:pt-10 relative">
+                <!-- Glowing Top Badge -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs sm:text-sm font-semibold tracking-wide uppercase mb-6 animate-pulse">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500 shadow-sm shadow-indigo-500"></span>
+                    <span data-i18n="heroBadge">Military-Grade Multi-Layer Cryptography</span>
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none px-2 sm:px-0 break-words">
+                    <span data-i18n="heroTitle1">Keamanan Data Mutlak dengan</span> <br class="hidden sm:inline">
+                    <span data-i18n="heroTitle2" class="text-gradient-primary">Enkripsi Hybrid Berlapis</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p data-i18n="heroDesc" class="mt-4 sm:mt-6 text-sm sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed px-2">
+                    Kombinasi superior dari kecepatan enkripsi simetris <strong>AES-256</strong> serta kekuatan proteksi asimetris ganda <strong>RSA-2048</strong> dan <strong>ECC NIST-P256</strong>.
+                </p>
+
+                <!-- CTA Action Buttons -->
+                <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2">
+                    <a href="hybrid-encription.html" class="w-full sm:w-auto btn-modern btn-gradient text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-xl shadow-indigo-500/20">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span data-i18n="ctaStudio">Buka Studio Enkripsi</span>
+                    </a>
+
+                    <a href="#arsitektur" class="w-full sm:w-auto btn-modern btn-secondary text-sm sm:text-base px-6 sm:px-7 py-3 sm:py-3.5">
+                        <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span data-i18n="ctaArchitecture">Pelajari Cara Kerja</span>
+                    </a>
+                </div>
+
+                <!-- Metrics Strip -->
+                <div class="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-gray-200 dark:border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto text-left">
+                    <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                        <span class="block text-xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 font-mono">256-bit</span>
+                        <span data-i18n="metricAes" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">AES Simetris CBC</span>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                        <span class="block text-xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400 font-mono">2048-bit</span>
+                        <span data-i18n="metricRsa" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">RSA Asimetris OAEP</span>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                        <span class="block text-xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">NIST-256</span>
+                        <span data-i18n="metricEcc" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">Kurva Eliptik ECDSA</span>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800">
+                        <span class="block text-xl sm:text-3xl font-extrabold text-cyan-600 dark:text-cyan-400 font-mono">SHA-256</span>
+                        <span data-i18n="metricHash" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">Hashing Integritas</span>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 INTERACTIVE PIPELINE VISUALIZATION
+                 ========================================== -->
+            <section id="arsitektur" class="crypto-card p-4 sm:p-10 border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+                    <span data-i18n="pipelineTag" class="text-xs font-mono font-bold tracking-widest text-indigo-500 uppercase">Alur Pemrosesan Data</span>
+                    <h2 data-i18n="pipelineTitle" class="text-xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1">
+                        Bagaimana Enkripsi Hybrid Bekerja?
+                    </h2>
+                    <p data-i18n="pipelineSubtitle" class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 sm:mt-3">
+                        File Anda melalui 4 lapis pengamanan kriptografis secara otomatis sebelum disimpan atau dikirim.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 relative">
+                    
+                    <!-- Step 1 -->
+                    <div class="pipeline-step">
+                        <div class="step-num-badge">1</div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="step1Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">1. Hashing Dokumen</h3>
+                        <p data-i18n="step1Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                            File diproses dengan fungsi <strong>SHA-256</strong> untuk menghasilkan sidik jari digital (hash) 256-bit unik yang mewakili integritas file asli.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="pipeline-step">
+                        <div class="step-num-badge">2</div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="step2Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">2. Enkripsi AES-256</h3>
+                        <p data-i18n="step2Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                            Seluruh isi payload dokumen dienkripsi super cepat menggunakan kunci simetris <strong>AES-256 CBC</strong> acak yang dibuat dinamis saat itu juga.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="pipeline-step">
+                        <div class="step-num-badge">3</div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="step3Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">3. Bungkus Kunci RSA</h3>
+                        <p data-i18n="step3Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                            Kunci AES rahasia dienkripsi dengan kunci publik <strong>RSA-2048 OAEP</strong>. Hanya pemilik kunci privat RSA yang bisa membuka kunci AES tersebut.
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="pipeline-step">
+                        <div class="step-num-badge">4</div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="step4Title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">4. Tanda Tangan ECC</h3>
+                        <p data-i18n="step4Desc" class="text-sm text-gray-600 dark:text-gray-400">
+                            File terenkripsi ditandatangani dengan kunci privat <strong>ECC (ECDSA)</strong> untuk menjamin autentikasi asal, non-repudiation, dan proteksi dari manipulasi.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 ALGORITHM COMPARISON CARDS
+                 ========================================== -->
+            <section>
+                <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12 px-2">
+                    <span data-i18n="compTag" class="text-xs font-mono font-bold tracking-widest text-emerald-500 uppercase">Perbandingan Teknologi</span>
+                    <h2 data-i18n="compTitle" class="text-xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1">
+                        Kekuatan Tiga Pilar Kriptografi
+                    </h2>
+                    <p data-i18n="compDesc" class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 sm:mt-3">
+                        Setiap algoritma memiliki keunggulan khusus yang saling melengkapi dalam sistem hybrid ini.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
+                    
+                    <!-- AES Card -->
+                    <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold text-lg mb-6">
+                                AES
+                            </div>
+                            <h3 data-i18n="compAesTitle" class="text-xl font-bold text-gray-900 dark:text-white mb-2">AES (Advanced Encryption Standard)</h3>
+                            <p data-i18n="compAesDesc" class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                                Standar industri enkripsi simetris global dengan mode CBC 256-bit. Sangat cepat dalam memproses berkas biner berukuran besar.
+                            </p>
+                        </div>
+                        <div class="space-y-3 pt-6 border-t border-gray-100 dark:border-slate-800 text-xs">
+                            <div class="flex justify-between">
+                                <span data-i18n="compAesSpeedLabel" class="text-gray-500 dark:text-gray-400">Kecepatan:</span>
+                                <span data-i18n="compAesSpeedVal" class="font-bold text-emerald-500">Sangat Cepat (~Gbps)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span data-i18n="compAesSizeLabel" class="text-gray-500 dark:text-gray-400">Ukuran Ciphertext:</span>
+                                <span data-i18n="compAesSizeVal" class="font-bold text-gray-800 dark:text-gray-200">Sama dengan Asli</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span data-i18n="compAesRoleLabel" class="text-gray-500 dark:text-gray-400">Peran Sistem:</span>
+                                <span data-i18n="compAesRoleVal" class="font-mono text-indigo-500 font-semibold">Enkripsi Isi File</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RSA Card -->
+                    <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center font-bold text-lg mb-6">
+                                RSA
+                            </div>
+                            <h3 data-i18n="compRsaTitle" class="text-xl font-bold text-gray-900 dark:text-white mb-2">RSA (Rivest-Shamir-Adleman)</h3>
+                            <p data-i18n="compRsaDesc" class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                                Kriptografi kunci publik asimetris 2048-bit dengan bantalan OAEP. Digunakan untuk mendistribusikan kunci AES tanpa saluran aman sebelumnya.
+                            </p>
+                        </div>
+                        <div class="space-y-3 pt-6 border-t border-gray-100 dark:border-slate-800 text-xs">
+                            <div class="flex justify-between">
+                                <span data-i18n="compRsaKeyLabel" class="text-gray-500 dark:text-gray-400">Panjang Kunci:</span>
+                                <span data-i18n="compRsaKeyVal" class="font-bold text-purple-500">2048 bit</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span data-i18n="compRsaStandardLabel" class="text-gray-500 dark:text-gray-400">Format Kunci:</span>
+                                <span data-i18n="compRsaStandardVal" class="font-bold text-gray-800 dark:text-gray-200">PKCS#8 / PEM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span data-i18n="compRsaRoleLabel" class="text-gray-500 dark:text-gray-400">Peran Sistem:</span>
+                                <span data-i18n="compRsaRoleVal" class="font-mono text-purple-500 font-semibold">Key Exchange (AES)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ECC Card -->
+                    <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center font-bold text-lg mb-6">
+                                ECC
+                            </div>
+                            <h3 data-i18n="compEccTitle" class="text-xl font-bold text-gray-900 dark:text-white mb-2">ECC (Elliptic Curve Cryptography)</h3>
+                            <p data-i18n="compEccDesc" class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                                Keamanan setara RSA-3072 namun dengan ukuran kunci hanya 256-bit (NIST P-256). Ideal untuk penandatanganan digital cepat dan hemat bandwidth.
+                            </p>
+                        </div>
+                        <div class="space-y-3 pt-6 border-t border-gray-100 dark:border-slate-800 text-xs">
+                            <div class="flex justify-between">
+                                <span data-i18n="compEccCurveLabel" class="text-gray-500 dark:text-gray-400">Kurva Standar:</span>
+                                <span data-i18n="compEccCurveVal" class="font-bold text-cyan-500">NIST P-256 (secp256r1)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span data-i18n="compEccSigLabel" class="text-gray-500 dark:text-gray-400">Ukuran Tanda Tangan:</span>
+                                <span data-i18n="compEccSigVal" class="font-bold text-gray-800 dark:text-gray-200">Sangat Ringan (64 byte)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span data-i18n="compEccRoleLabel" class="text-gray-500 dark:text-gray-400">Peran Sistem:</span>
+                                <span data-i18n="compEccRoleVal" class="font-mono text-cyan-500 font-semibold">Tanda Tangan Digital</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 CALL TO ACTION BANNER
+                 ========================================== -->
+            <section class="crypto-card p-6 sm:p-12 relative overflow-hidden bg-gradient-to-r from-indigo-900/90 via-slate-900 to-slate-900 text-white border border-indigo-500/30">
+                <div class="relative z-10 max-w-2xl">
+                    <span data-i18n="ctaCardTag" class="px-3 py-1 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+                        Mulai Sekarang
+                    </span>
+                    <h2 data-i18n="ctaCardTitle" class="text-xl sm:text-4xl font-extrabold text-white mt-3 sm:mt-4 leading-tight">
+                        Amankan Berkas Rahasia Anda dalam Hitungan Detik
+                    </h2>
+                    <p data-i18n="ctaCardDesc" class="text-xs sm:text-base text-indigo-200/80 mt-2 sm:mt-3 leading-relaxed">
+                        Hasilkan pasangan kunci RSA & ECC secara instan, upload dokumen apa pun (dokumen bisnis, kontrak hukum, sertifikat, atau gambar rahasia), dan download paket terenkripsi yang aman.
+                    </p>
+                    <div class="mt-6 sm:mt-8 flex flex-wrap gap-4">
+                        <a href="hybrid-encription.html" class="w-full sm:w-auto btn-modern btn-gradient text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-lg text-center">
+                            <span data-i18n="ctaCardBtn">Mulai Enkripsi File</span>
+                            <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Decorative Background Lock Graphic -->
+                <div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none hidden lg:block">
+                    <svg class="w-96 h-96 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a2 2 0 110-4 2 2 0 010 4z"/>
+                    </svg>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Modern Cybersecurity Footer -->
+    <footer class="border-t border-gray-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/60 backdrop-blur-md relative z-10 py-8 sm:py-10 mt-12 sm:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center pb-6 sm:pb-8 border-b border-gray-200 dark:border-slate-800/80 text-center md:text-left">
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">
+                            KH
+                        </div>
+                        <span data-i18n="footerTitle" class="font-bold text-base text-gray-900 dark:text-white">Kriptografi File Hybrid</span>
+                    </div>
+                    <p data-i18n="footerDesc" class="text-xs text-gray-500 dark:text-gray-400 mt-2 max-w-sm">
+                        Keamanan berlapis tanpa kompromi dengan enkripsi simetris AES-256 dan tanda tangan digital ganda RSA & ECC.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center md:items-center">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-mono">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        <span data-i18n="zeroStorage">Zero Permanent Storage • Client-Verified Security</span>
+                    </div>
+                    <p data-i18n="footerDisclaimer" class="text-[11px] text-gray-400 dark:text-gray-500 mt-2 text-center max-w-xs">
+                        Aplikasi Kriptografi File Hybrid — Dibuat untuk privasi dan integritas data tingkat militer.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center md:items-end space-y-2 text-xs text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center gap-4">
+                        <a href="index.html" data-i18n="navHome" class="hover:text-indigo-500 transition-colors">Beranda</a>
+                        <a href="hybrid-encription.html" data-i18n="navStudio" class="hover:text-indigo-500 transition-colors">Studio Enkripsi</a>
+                    </div>
+                    <p data-i18n="copyright" class="font-mono text-[11px] text-gray-400">
+                        Dilisensikan © 17.6A.27
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Scroll To Top Button -->
+    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 hidden w-11 h-11 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-xl shadow-indigo-500/25 hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all z-30" data-i18n-title="backToTop" title="Kembali ke Atas" aria-label="Kembali ke Atas">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Mobile Navigation Drawer System -->
+    <div id="mobileMenuBackdrop" class="mobile-drawer-backdrop" aria-hidden="true"></div>
+    <div id="mobileMenu" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Menu Navigasi Mobile">
+        <div>
+            <!-- Drawer Brand & Close Header -->
+            <div class="flex items-center justify-between pb-5 border-b" style="border-color: var(--border-subtle);">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-md shadow-indigo-500/20">
+                        <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+                            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span data-i18n="brandName" class="font-extrabold text-base tracking-tight leading-none" style="color: var(--text-primary);">
+                            Kripto<span class="text-indigo-500">Hybrid</span>
+                        </span>
+                        <span class="text-[9px] font-mono tracking-wider uppercase mt-0.5" style="color: var(--text-muted);">MENU NAVIGASI</span>
+                    </div>
+                </div>
+                <button id="mobileMenuCloseBtn" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:scale-105 active:scale-95" style="background: var(--bg-surface-subtle); color: var(--text-secondary);" aria-label="Tutup Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Drawer Navigation Links -->
+            <div class="flex flex-col space-y-2 mt-6">
+                <a href="index.html" class="mobile-drawer-link active">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-indigo-500/10 text-indigo-500 flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <span data-i18n="navHome">Beranda</span>
+                </a>
+                <a href="hybrid-encription.html" class="mobile-drawer-link">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/10 text-emerald-500 flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <span data-i18n="navStudio">Studio Enkripsi</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Drawer Footer Controls -->
+        <div class="pt-6 border-t space-y-4" style="border-color: var(--border-subtle);">
+            <!-- Language Switcher in Drawer -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: var(--bg-surface-subtle);">
+                <span class="text-xs font-semibold" style="color: var(--text-secondary);">Bahasa / Language</span>
+                <div class="lang-switcher-pill">
+                    <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                    <button type="button" class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+
+            <!-- Theme Switcher in Drawer -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: var(--bg-surface-subtle);">
+                <span data-i18n="toggleTheme" class="text-xs font-semibold" style="color: var(--text-secondary);">Mode Tema</span>
+                <button id="themeToggleDrawer" type="button" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors hover:scale-105 active:scale-95" style="background: var(--bg-surface); border-color: var(--border-medium); color: var(--text-primary);">
+                    <svg class="w-4 h-4 text-amber-500 hidden" id="sunIconDrawer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg class="w-4 h-4 text-indigo-400" id="moonIconDrawer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <span id="themeTextDrawer">Dark Mode</span>
+                </button>
+            </div>
+
+            <a href="hybrid-encription.html" class="w-full btn-modern btn-gradient text-center py-3 text-sm flex items-center justify-center">
+                <span data-i18n="navStartEncrypt">Mulai Enkripsi Sekarang</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Global Application Scripts (Translations & Utilities) -->
+    <script src="static/js/translations.js"></script>
+    <script src="static/js/main.js"></script>
+    <script>
+        // Enhanced Theme Switcher with Persistence
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
+        const themeToggleDrawer = document.getElementById('themeToggleDrawer');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIconMobile = document.getElementById('sunIconMobile');
+        const moonIconMobile = document.getElementById('moonIconMobile');
+        const sunIconDrawer = document.getElementById('sunIconDrawer');
+        const moonIconDrawer = document.getElementById('moonIconDrawer');
+        const themeTextDrawer = document.getElementById('themeTextDrawer');
+
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                sunIcon?.classList.remove('hidden');
+                moonIcon?.classList.add('hidden');
+                sunIconMobile?.classList.remove('hidden');
+                moonIconMobile?.classList.add('hidden');
+                sunIconDrawer?.classList.remove('hidden');
+                moonIconDrawer?.classList.add('hidden');
+                if (themeTextDrawer) themeTextDrawer.textContent = 'Dark Mode';
+            } else {
+                document.documentElement.classList.remove('dark');
+                sunIcon?.classList.add('hidden');
+                moonIcon?.classList.remove('hidden');
+                sunIconMobile?.classList.add('hidden');
+                moonIconMobile?.classList.remove('hidden');
+                sunIconDrawer?.classList.add('hidden');
+                moonIconDrawer?.classList.remove('hidden');
+                if (themeTextDrawer) themeTextDrawer.textContent = 'Light Mode';
+            }
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+
+        applyTheme(currentTheme);
+
+        function handleThemeToggle() {
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        themeToggle?.addEventListener('click', handleThemeToggle);
+        themeToggleMobile?.addEventListener('click', handleThemeToggle);
+        themeToggleDrawer?.addEventListener('click', handleThemeToggle);
+
+        // Mobile Menu Drawer Control
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuCloseBtn = document.getElementById('mobileMenuCloseBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+        function openMobileMenu() {
+            mobileMenuBackdrop?.classList.add('active');
+            mobileMenu?.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenuBackdrop?.classList.remove('active');
+            mobileMenu?.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn?.addEventListener('click', openMobileMenu);
+        mobileMenuCloseBtn?.addEventListener('click', closeMobileMenu);
+        mobileMenuBackdrop?.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking navigation link
+        document.querySelectorAll('.mobile-drawer-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMobileMenu();
+        });
+
+        // Scroll to Top Listener
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 250) {
+                scrollToTopBtn?.classList.remove('hidden');
+                scrollToTopBtn?.classList.add('flex');
+            } else {
+                scrollToTopBtn?.classList.add('hidden');
+                scrollToTopBtn?.classList.remove('flex');
+            }
+        });
+
+        scrollToTopBtn?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

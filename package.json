@@ -1,0 +1,20 @@
+{
+  "name": "kriptografi-hybrid",
+  "version": "1.0.0",
+  "description": "Platform Kriptografi Hybrid Modern (AES-256, RSA-2048, ECC NIST-P256) - 100% Client-Side Static Web",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Static build ready'"
+  },
+  "keywords": [
+    "cryptography",
+    "hybrid-encryption",
+    "aes-256",
+    "rsa",
+    "ecc",
+    "zero-knowledge"
+  ],
+  "author": "muhavan",
+  "license": "MIT"
+}

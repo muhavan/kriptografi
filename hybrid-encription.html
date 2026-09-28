@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Studio Enkripsi File Hybrid - Enkripsi, verifikasi, dan dekripsi dokumen secara aman 100% di browser dengan AES-256, RSA-2048, dan ECC NIST-256p.">
+    <title>Studio Enkripsi Hybrid | KriptoHybrid</title>
+    
+    <link rel="icon" href="static/images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="static/images/favicon.png">
+
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Custom Modern Design System -->
+    <link href="static/css/style.css" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Navigation Header (Glassmorphic) -->
+    <header class="navbar-glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                
+                <!-- Logo & Brand Identity -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <a href="index.html" class="flex items-center gap-2 sm:gap-3 group text-decoration-none">
+                        <div class="relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-0.5 shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-300">
+                            <div class="w-full h-full bg-slate-900 rounded-[8px] sm:rounded-[10px] flex items-center justify-center overflow-hidden">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span data-i18n="brandName" class="font-extrabold text-base sm:text-xl tracking-tight leading-none text-gray-900 dark:text-white flex items-center gap-1">
+                                Kripto<span class="text-indigo-500">Hybrid</span>
+                            </span>
+                            <span data-i18n="brandSub" class="text-[9px] sm:text-[10px] font-mono tracking-wider text-gray-500 dark:text-gray-400 uppercase mt-0.5 hidden sm:inline">AES • RSA • ECC</span>
+                        </div>
+                    </a>
+
+                    <!-- Status Indicator Badge -->
+                    <div class="hidden lg:flex items-center ml-4">
+                        <div class="status-badge">
+                            <span class="status-dot"></span>
+                            <span data-i18n="engineActive">Engine Aktif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links & Controls -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="index.html" class="nav-link">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span data-i18n="navHome">Beranda</span>
+                    </a>
+                    
+                    <a href="hybrid-encription.html" class="nav-link active">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span data-i18n="navStudio">Studio Enkripsi</span>
+                    </a>
+
+                    <div class="h-6 w-px bg-gray-200 dark:bg-gray-800 mx-2"></div>
+
+                    <!-- Language Switcher Pill (Desktop) -->
+                    <div class="lang-switcher-pill" title="Pilih Bahasa / Select Language">
+                        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Theme Toggle Button -->
+                    <button id="themeToggle" type="button" class="p-2.5 rounded-xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white bg-gray-100 dark:bg-slate-800/80 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all focus:outline-none" data-i18n-title="toggleTheme" title="Ganti Tema">
+                        <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </nav>
+
+                <!-- Mobile Action Menu & Toggle -->
+                <div class="flex items-center gap-1.5 sm:gap-2 md:hidden">
+                    <!-- Language Switcher Pill (Mobile) -->
+                    <div class="lang-switcher-pill mr-0.5">
+                        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <button id="themeToggleMobile" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400" aria-label="Ganti Tema">
+                        <svg id="sunIconMobile" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moonIconMobile" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button id="mobileMenuBtn" type="button" class="p-1.5 sm:p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none" aria-label="Buka Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Workspace -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
+        <div class="max-w-5xl mx-auto space-y-8">
+
+            <!-- Header Section -->
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span data-i18n="studioBadge">Studio Keamanan Kriptografi</span>
+                </div>
+                <h1 data-i18n="studioTitle" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                    Enkripsi, Verifikasi & Dekripsi File
+                </h1>
+                <p data-i18n="studioDesc" class="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Sistem pengamanan data menyeluruh yang menggabungkan cipher simetris <strong>AES-256</strong> dengan autentikasi asimetris ganda <strong>RSA-2048</strong> dan <strong>ECC NIST-P256</strong>.
+                </p>
+            </div>
+
+            <!-- Segmented Pill Tabs Navigation -->
+            <div class="flex justify-center">
+                <div class="segmented-tabs-wrapper w-full sm:w-auto flex justify-between sm:justify-start overflow-x-auto">
+                    <button id="sign-tab" class="segmented-tab active flex-1 sm:flex-initial">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span data-i18n="tabSign">1. Enkripsi File</span>
+                    </button>
+                    <button id="verify-tab" class="segmented-tab flex-1 sm:flex-initial">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <span data-i18n="tabVerify">2. Verifikasi Integritas</span>
+                    </button>
+                    <button id="decrypt-tab" class="segmented-tab flex-1 sm:flex-initial">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                        </svg>
+                        <span data-i18n="tabDecrypt">3. Dekripsi Dokumen</span>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- =========================================================================
+                 TAB 1: ENKRIPSI FILE HYBRID (SIGN SECTION)
+                 ========================================================================= -->
+            <div id="sign-document-section" class="space-y-6">
+                
+                <!-- Key Generation Card -->
+                <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-gray-100 dark:border-slate-800">
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xs font-bold font-mono">1A</span>
+                                <span data-i18n="keyGenTitle">Generator Pasangan Kunci Kriptografi</span>
+                            </h2>
+                            <p data-i18n="keyGenDesc" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                Buat pasangan kunci privat RSA-2048 & ECC NIST-P256 secara otomatis dan terstandar PEM langsung di browser Anda.
+                            </p>
+                        </div>
+                        <button id="generate-hybrid-keys-btn" type="button" class="btn-modern btn-gradient text-xs uppercase tracking-wider py-2.5 px-4 shadow-sm whitespace-nowrap w-full sm:w-auto justify-center">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                            <span data-i18n="btnGenKeys">Generate Kunci Otomatis</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <!-- RSA Key Block -->
+                        <div>
+                            <div class="key-box-header">
+                                <div class="flex items-center gap-2">
+                                    <span data-i18n="rsaKeyLabel" class="font-bold text-gray-700 dark:text-gray-200">Kunci Privat RSA (2048-bit)</span>
+                                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/40">PKCS#8</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" class="text-xs px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors" onclick="copyText(document.getElementById('rsaPrivateKey').value, this, t('rsaKeyLabel') + t('toastCopied'))">
+                                        <span data-i18n="btnCopy">Salin</span>
+                                    </button>
+                                    <button type="button" class="text-xs px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors" onclick="downloadTextFile(document.getElementById('rsaPrivateKey').value, 'rsa_private_key.pem')">
+                                        <span data-i18n="btnDownload">Unduh</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea id="rsaPrivateKey" class="crypto-textarea h-36" data-i18n-placeholder="placeholderRsa" placeholder="-----BEGIN PRIVATE KEY-----&#10;Klik tombol 'Generate Kunci Otomatis' di atas atau tempel kunci privat RSA Anda di sini...&#10;-----END PRIVATE KEY-----" spellcheck="false"></textarea>
+                            <p data-i18n="rsaWarning" class="text-xs text-amber-600 dark:text-amber-400 mt-1.5 flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                                <span>Simpan kunci privat RSA ini baik-baik untuk proses dekripsi nanti.</span>
+                            </p>
+                        </div>
+
+                        <!-- ECC Key Block -->
+                        <div>
+                            <div class="key-box-header">
+                                <div class="flex items-center gap-2">
+                                    <span data-i18n="eccKeyLabel" class="font-bold text-gray-700 dark:text-gray-200">Kunci Privat ECC (NIST-P256)</span>
+                                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40">ECDSA</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" class="text-xs px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors" onclick="copyText(document.getElementById('eccPrivateKey').value, this, t('eccKeyLabel') + t('toastCopied'))">
+                                        <span data-i18n="btnCopy">Salin</span>
+                                    </button>
+                                    <button type="button" class="text-xs px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors" onclick="downloadTextFile(document.getElementById('eccPrivateKey').value, 'ecc_private_key.pem')">
+                                        <span data-i18n="btnDownload">Unduh</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea id="eccPrivateKey" class="crypto-textarea h-36" data-i18n-placeholder="placeholderEcc" placeholder="-----BEGIN PRIVATE KEY-----&#10;Klik tombol 'Generate Kunci Otomatis' di atas atau tempel kunci privat ECC Anda di sini...&#10;-----END PRIVATE KEY-----" spellcheck="false"></textarea>
+                            <p data-i18n="eccNote" class="text-xs text-gray-500 dark:text-gray-400 mt-1.5">
+                                Digunakan untuk menandatangani dokumen secara digital (Digital Signature).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload & Execution Card -->
+                <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-4">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xs font-bold font-mono">1B</span>
+                        <span data-i18n="step1BTitle">Pilih Berkas untuk Dienkripsi</span>
+                    </h2>
+
+                    <!-- Interactive Dropzone -->
+                    <div id="dropzoneSign" class="dropzone-container">
+                        <input type="file" id="fileToSign" class="hidden">
+                        <div class="dropzone-icon">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                        </div>
+                        <p class="text-base font-semibold text-gray-800 dark:text-gray-200">
+                            <span data-i18n="dropzonePrompt">Tarik dan lepaskan file ke sini, atau</span> <span data-i18n="dropzoneChoose" class="text-indigo-500 underline">pilih dari perangkat</span>
+                        </p>
+                        <p data-i18n="dropzoneFormats" class="text-xs text-gray-500 dark:text-gray-400 mt-1.5">
+                            Format didukung: Semua jenis dokumen, gambar, PDF, teks, dan data biner. Diproses 100% lokal di browser Anda.
+                        </p>
+                        <div id="fileToSignPreview" class="mt-2"></div>
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button id="hybrid-sign-btn" type="button" class="btn-modern btn-gradient text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-lg w-full sm:w-auto justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <span data-i18n="btnSignAction">Enkripsi & Tandatangani Berkas</span>
+                        </button>
+                    </div>
+
+                    <!-- Encryption Result Block -->
+                    <div id="hybrid-sign-result" class="mt-8 pt-6 border-t border-gray-100 dark:border-slate-800 hidden animate-fade-in">
+                        <div id="hybrid-sign-success" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-3 mb-6">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h4 id="hybrid-sign-message" data-i18n="signSuccessTitle" class="text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                                    Berkas Berhasil Dienkripsi & Ditandatangani!
+                                </h4>
+                                <p data-i18n="signSuccessDesc" class="text-xs text-emerald-700 dark:text-emerald-400 mt-1">
+                                    Payload file telah dilindungi dengan AES-256 dan kunci rahasianya dibungkus dengan RSA-2048 serta ditandatangani digital oleh ECC secara instan di browser Anda.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Download Artifacts Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700/80 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">ENCRYPTED PAYLOAD</span>
+                                    </div>
+                                    <h5 data-i18n="encryptedDocTitle" class="text-sm font-bold text-gray-900 dark:text-white">Dokumen Terenkripsi (.bin)</h5>
+                                    <p data-i18n="encryptedDocDesc" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Berkas hasil enkripsi ciphertext AES-256 yang aman dibagikan.</p>
+                                </div>
+                                <a id="download-encrypted-link" href="#" class="mt-4 btn-modern btn-gradient text-xs py-2.5 text-center">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    <span data-i18n="btnDownloadEncrypted">Download Dokumen Terenkripsi</span>
+                                </a>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700/80 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">PUBLIC METADATA</span>
+                                    </div>
+                                    <h5 data-i18n="metadataTitle" class="text-sm font-bold text-gray-900 dark:text-white">File Metadata Kunci (.json)</h5>
+                                    <p data-i18n="metadataDesc" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Berisi kunci publik, hash SHA-256, dan tanda tangan digital untuk verifikasi.</p>
+                                </div>
+                                <a id="download-keys-metadata-link" href="#" class="mt-4 btn-modern btn-secondary text-xs py-2.5 text-center">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    <span data-i18n="btnDownloadMeta">Download File Metadata</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- =========================================================================
+                 TAB 2: VERIFIKASI DOKUMEN HYBRID (VERIFY SECTION)
+                 ========================================================================= -->
+            <div id="verify-document-section" class="space-y-6 hidden">
+                <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xs font-bold font-mono">2</span>
+                        <span data-i18n="verifyStepTitle">Verifikasi Keaslian & Integritas Dokumen</span>
+                    </h2>
+                    <p data-i18n="verifyStepDesc" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-6">
+                        Unggah dokumen terenkripsi beserta file metadata miliknya. Sistem akan menguji integritas tanda tangan digital RSA dan ECC secara independen.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Dropzone 1 -->
+                        <div>
+                            <label data-i18n="verifyLabel1" class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
+                                1. Dokumen Terenkripsi (.bin)
+                            </label>
+                            <div id="dropzoneVerifyFile" class="dropzone-container py-8">
+                                <input type="file" id="encryptedFile" class="hidden">
+                                <div class="dropzone-icon w-10 h-10">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                </div>
+                                <p data-i18n="dropzoneVerifyFilePrompt" class="text-xs font-semibold text-gray-700 dark:text-gray-300">Pilih / Drag Dokumen Terenkripsi</p>
+                                <div id="encryptedFilePreview" class="mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Dropzone 2 -->
+                        <div>
+                            <label data-i18n="verifyLabel2" class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
+                                2. File Metadata Kunci (.json)
+                            </label>
+                            <div id="dropzoneVerifyMeta" class="dropzone-container py-8">
+                                <input type="file" id="keysMetadataFile" class="hidden" accept=".json">
+                                <div class="dropzone-icon w-10 h-10">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                                <p data-i18n="dropzoneVerifyMetaPrompt" class="text-xs font-semibold text-gray-700 dark:text-gray-300">Pilih / Drag File Metadata (.json)</p>
+                                <div id="keysMetadataFilePreview" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button id="hybrid-verify-btn" type="button" class="btn-modern btn-gradient text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-lg w-full sm:w-auto justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <span data-i18n="btnVerifyAction">Verifikasi Keaslian Dokumen</span>
+                        </button>
+                    </div>
+
+                    <!-- Verification Results Display -->
+                    <div id="hybrid-verify-result" class="mt-8 pt-6 border-t border-gray-100 dark:border-slate-800 hidden">
+                        <!-- Valid State -->
+                        <div id="hybrid-verify-valid" class="p-4 sm:p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hidden">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold">
+                                    ✓
+                                </div>
+                                <div>
+                                    <h4 id="hybrid-verify-valid-message" data-i18n="verifySuccessHeading" class="text-base font-bold text-emerald-800 dark:text-emerald-300">
+                                        DOKUMEN VALID & ASLI
+                                    </h4>
+                                    <p data-i18n="verifySuccessSub" class="text-xs text-emerald-700 dark:text-emerald-400">
+                                        Seluruh tanda tangan digital cocok. Berkas tidak pernah dimodifikasi atau dirusak sejak ditandatangani.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="document-metadata" class="p-3 sm:p-4 rounded-xl bg-white/70 dark:bg-slate-900/80 border border-emerald-500/20 space-y-2 text-xs font-mono text-gray-700 dark:text-gray-300 break-all">
+                                <p id="original-filename" class="break-all"></p>
+                                <p id="signature-timestamp" class="break-all"></p>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-2 border-t border-gray-200 dark:border-slate-800 text-[11px]">
+                                    <span data-i18n="auditHash" class="text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap">✓ Hash SHA-256 Match</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap">✓ RSA-PSS Signature Valid</span>
+                                    <span data-i18n="auditEcc" class="text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap">✓ ECC ECDSA Valid</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Invalid State -->
+                        <div id="hybrid-verify-invalid" class="p-4 sm:p-6 rounded-2xl bg-rose-500/10 border border-rose-500/30 hidden">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold">
+                                    ✕
+                                </div>
+                                <div>
+                                    <h4 id="hybrid-verify-invalid-message" data-i18n="verifyFailHeading" class="text-base font-bold text-rose-800 dark:text-rose-300">
+                                        PERINGATAN: DOKUMEN TIDAK VALID / TELAH DIMODIFIKASI
+                                    </h4>
+                                    <p data-i18n="verifyFailSub" class="text-xs text-rose-700 dark:text-rose-400">
+                                        Verifikasi tanda tangan kriptografis gagal. Konten file tidak cocok dengan metadata aslinya.
+                                    </p>
+                                </div>
+                            </div>
+                            <p id="error-details" class="text-xs font-mono text-rose-700 dark:text-rose-400 p-3 bg-white/50 dark:bg-slate-900/50 rounded-lg mt-3 break-all"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- =========================================================================
+                 TAB 3: DEKRIPSI DOKUMEN HYBRID (DECRYPT SECTION)
+                 ========================================================================= -->
+            <div id="decrypt-document-section" class="space-y-6 hidden">
+                <div class="crypto-card p-4 sm:p-6 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xs font-bold font-mono">3</span>
+                        <span data-i18n="decryptStepTitle">Dekripsi Dokumen & Pratinjau Langsung</span>
+                    </h2>
+                    <p data-i18n="decryptStepDesc" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-6">
+                        Untuk mendekripsi dokumen, masukkan file terenkripsi (.bin), file metadata miliknya (.json), serta kunci privat RSA yang bersesuaian.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label data-i18n="decryptLabel1" class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
+                                1. Dokumen Terenkripsi (.bin)
+                            </label>
+                            <div id="dropzoneDecryptFile" class="dropzone-container py-8">
+                                <input type="file" id="encryptedFileDecrypt" class="hidden">
+                                <div class="dropzone-icon w-10 h-10">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                </div>
+                                <p data-i18n="dropzoneVerifyFilePrompt" class="text-xs font-semibold text-gray-700 dark:text-gray-300">Pilih / Drag Dokumen Terenkripsi</p>
+                                <div id="encryptedFileDecryptPreview" class="mt-2"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label data-i18n="decryptLabel2" class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
+                                2. File Metadata Kunci (.json)
+                            </label>
+                            <div id="dropzoneDecryptMeta" class="dropzone-container py-8">
+                                <input type="file" id="keysMetadataFileDecrypt" class="hidden" accept=".json">
+                                <div class="dropzone-icon w-10 h-10">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                                <p data-i18n="dropzoneVerifyMetaPrompt" class="text-xs font-semibold text-gray-700 dark:text-gray-300">Pilih / Drag File Metadata (.json)</p>
+                                <div id="keysMetadataFileDecryptPreview" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <div class="key-box-header">
+                            <div>
+                                <span data-i18n="rsaDecryptKeyLabel" class="font-bold text-gray-700 dark:text-gray-200">Kunci Privat RSA Pengirim / Pemilik</span>
+                            </div>
+                            <div>
+                                <button type="button" class="text-xs px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors" onclick="navigator.clipboard.readText().then(tText => { document.getElementById('rsaPrivateKeyDecrypt').value = tText; showToast(t('toastPasted'), 'success'); })">
+                                    <span data-i18n="btnPaste">Paste dari Clipboard</span>
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="rsaPrivateKeyDecrypt" class="crypto-textarea h-32" data-i18n-placeholder="placeholderDecryptRsa" placeholder="Tempel kunci privat RSA (PEM format) yang digunakan saat enkripsi..." spellcheck="false"></textarea>
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button id="hybrid-decrypt-btn" type="button" class="btn-modern btn-emerald text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-3.5 shadow-lg w-full sm:w-auto justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                            </svg>
+                            <span data-i18n="btnDecryptAction">Dekripsi & Tampilkan Isi Dokumen</span>
+                        </button>
+                    </div>
+
+                    <!-- Decryption Result & Preview Block -->
+                    <div id="hybrid-decrypt-result" class="mt-8 pt-6 border-t border-gray-100 dark:border-slate-800 hidden">
+                        <div id="hybrid-decrypt-success" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3 mb-6">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs">
+                                ✓
+                            </div>
+                            <p id="hybrid-decrypt-message" data-i18n="decryptSuccessNotice" class="text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                                Dokumen berhasil didekripsi dengan kunci AES rahasia!
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <h4 data-i18n="previewHeading" class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+                                    Pratinjau Isi Dokumen Asli:
+                                </h4>
+                                <a id="download-decrypted-link" href="#" class="btn-modern btn-gradient text-xs py-2.5 px-4 w-full sm:w-auto text-center justify-center">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    <span data-i18n="btnDownloadDecrypted">Download Dokumen Asli</span>
+                                </a>
+                            </div>
+
+                            <!-- Rich Media Preview Box -->
+                            <div id="preview-container" class="border border-gray-200 dark:border-slate-800 rounded-2xl p-6 bg-gray-50/50 dark:bg-slate-950/60 min-h-[220px] flex items-center justify-center overflow-hidden">
+                                <p id="no-preview" data-i18n="noPreviewText" class="text-sm text-gray-400 dark:text-gray-500 text-center font-medium">
+                                    Preview dokumen akan muncul di sini setelah didekripsi
+                                </p>
+                                <img id="image-preview" class="max-w-full max-h-[420px] rounded-lg shadow-xl object-contain hidden" alt="Pratinjau Dokumen Gambar">
+                                <pre id="text-preview" class="w-full max-h-[380px] overflow-auto p-4 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-xs font-mono text-gray-800 dark:text-gray-200 hidden leading-relaxed"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modern Cybersecurity Footer -->
+    <footer class="border-t border-gray-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/60 backdrop-blur-md relative z-10 py-8 sm:py-10 mt-12 sm:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center pb-6 sm:pb-8 border-b border-gray-200 dark:border-slate-800/80 text-center md:text-left">
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">
+                            KH
+                        </div>
+                        <span data-i18n="footerTitle" class="font-bold text-base text-gray-900 dark:text-white">Kriptografi File Hybrid</span>
+                    </div>
+                    <p data-i18n="footerDesc" class="text-xs text-gray-500 dark:text-gray-400 mt-2 max-w-sm">
+                        Keamanan berlapis tanpa kompromi dengan enkripsi simetris AES-256 dan tanda tangan digital ganda RSA & ECC.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center md:items-center">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-mono">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        <span data-i18n="zeroStorage">Zero Permanent Storage • Client-Verified Security</span>
+                    </div>
+                    <p data-i18n="footerDisclaimer" class="text-[11px] text-gray-400 dark:text-gray-500 mt-2 text-center max-w-xs">
+                        Aplikasi Kriptografi File Hybrid — Dibuat untuk privasi dan integritas data tingkat militer.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center md:items-end space-y-2 text-xs text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center gap-4">
+                        <a href="index.html" data-i18n="navHome" class="hover:text-indigo-500 transition-colors">Beranda</a>
+                        <a href="hybrid-encription.html" data-i18n="navStudio" class="hover:text-indigo-500 transition-colors">Studio Enkripsi</a>
+                    </div>
+                    <p data-i18n="copyright" class="font-mono text-[11px] text-gray-400">
+                        Dilisensikan © 17.6A.27
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Scroll To Top Button -->
+    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 hidden w-11 h-11 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-xl shadow-indigo-500/25 hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all z-30" data-i18n-title="backToTop" title="Kembali ke Atas" aria-label="Kembali ke Atas">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Mobile Navigation Drawer System -->
+    <div id="mobileMenuBackdrop" class="mobile-drawer-backdrop" aria-hidden="true"></div>
+    <div id="mobileMenu" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Menu Navigasi Mobile">
+        <div>
+            <!-- Drawer Brand & Close Header -->
+            <div class="flex items-center justify-between pb-5 border-b" style="border-color: var(--border-subtle);">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-md shadow-indigo-500/20">
+                        <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+                            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span data-i18n="brandName" class="font-extrabold text-base tracking-tight leading-none" style="color: var(--text-primary);">
+                            Kripto<span class="text-indigo-500">Hybrid</span>
+                        </span>
+                        <span class="text-[9px] font-mono tracking-wider uppercase mt-0.5" style="color: var(--text-muted);">MENU NAVIGASI</span>
+                    </div>
+                </div>
+                <button id="mobileMenuCloseBtn" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:scale-105 active:scale-95" style="background: var(--bg-surface-subtle); color: var(--text-secondary);" aria-label="Tutup Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Drawer Navigation Links -->
+            <div class="flex flex-col space-y-2 mt-6">
+                <a href="index.html" class="mobile-drawer-link">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-indigo-500/10 text-indigo-500 flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <span data-i18n="navHome">Beranda</span>
+                </a>
+                <a href="hybrid-encription.html" class="mobile-drawer-link active">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/10 text-emerald-500 flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <span data-i18n="navStudio">Studio Enkripsi</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Drawer Footer Controls -->
+        <div class="pt-6 border-t space-y-4" style="border-color: var(--border-subtle);">
+            <!-- Language Switcher in Drawer -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: var(--bg-surface-subtle);">
+                <span class="text-xs font-semibold" style="color: var(--text-secondary);">Bahasa / Language</span>
+                <div class="lang-switcher-pill">
+                    <button type="button" class="lang-btn active" data-lang="id">ID</button>
+                    <button type="button" class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+
+            <!-- Theme Switcher in Drawer -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: var(--bg-surface-subtle);">
+                <span data-i18n="toggleTheme" class="text-xs font-semibold" style="color: var(--text-secondary);">Mode Tema</span>
+                <button id="themeToggleDrawer" type="button" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors hover:scale-105 active:scale-95" style="background: var(--bg-surface); border-color: var(--border-medium); color: var(--text-primary);">
+                    <svg class="w-4 h-4 text-amber-500 hidden" id="sunIconDrawer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg class="w-4 h-4 text-indigo-400" id="moonIconDrawer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <span id="themeTextDrawer">Dark Mode</span>
+                </button>
+            </div>
+
+            <a href="hybrid-encription.html" class="w-full btn-modern btn-gradient text-center py-3 text-sm flex items-center justify-center">
+                <span data-i18n="navStartEncrypt">Mulai Enkripsi Sekarang</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Global Application Scripts (Translations, Crypto Engine & Utilities) -->
+    <script src="static/js/translations.js"></script>
+    <script src="static/js/crypto-engine.js"></script>
+    <script src="static/js/main.js"></script>
+    <script>
+        // Enhanced Theme Switcher with Persistence
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
+        const themeToggleDrawer = document.getElementById('themeToggleDrawer');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIconMobile = document.getElementById('sunIconMobile');
+        const moonIconMobile = document.getElementById('moonIconMobile');
+        const sunIconDrawer = document.getElementById('sunIconDrawer');
+        const moonIconDrawer = document.getElementById('moonIconDrawer');
+        const themeTextDrawer = document.getElementById('themeTextDrawer');
+
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                sunIcon?.classList.remove('hidden');
+                moonIcon?.classList.add('hidden');
+                sunIconMobile?.classList.remove('hidden');
+                moonIconMobile?.classList.add('hidden');
+                sunIconDrawer?.classList.remove('hidden');
+                moonIconDrawer?.classList.add('hidden');
+                if (themeTextDrawer) themeTextDrawer.textContent = 'Dark Mode';
+            } else {
+                document.documentElement.classList.remove('dark');
+                sunIcon?.classList.add('hidden');
+                moonIcon?.classList.remove('hidden');
+                sunIconMobile?.classList.add('hidden');
+                moonIconMobile?.classList.remove('hidden');
+                sunIconDrawer?.classList.add('hidden');
+                moonIconDrawer?.classList.remove('hidden');
+                if (themeTextDrawer) themeTextDrawer.textContent = 'Light Mode';
+            }
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+
+        applyTheme(currentTheme);
+
+        function handleThemeToggle() {
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        themeToggle?.addEventListener('click', handleThemeToggle);
+        themeToggleMobile?.addEventListener('click', handleThemeToggle);
+        themeToggleDrawer?.addEventListener('click', handleThemeToggle);
+
+        // Mobile Menu Drawer Control
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuCloseBtn = document.getElementById('mobileMenuCloseBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+        function openMobileMenu() {
+            mobileMenuBackdrop?.classList.add('active');
+            mobileMenu?.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenuBackdrop?.classList.remove('active');
+            mobileMenu?.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn?.addEventListener('click', openMobileMenu);
+        mobileMenuCloseBtn?.addEventListener('click', closeMobileMenu);
+        mobileMenuBackdrop?.addEventListener('click', closeMobileMenu);
+
+        document.querySelectorAll('.mobile-drawer-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMobileMenu();
+        });
+
+        // Scroll to Top Listener
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 250) {
+                scrollToTopBtn?.classList.remove('hidden');
+                scrollToTopBtn?.classList.add('flex');
+            } else {
+                scrollToTopBtn?.classList.add('hidden');
+                scrollToTopBtn?.classList.remove('flex');
+            }
+        });
+
+        scrollToTopBtn?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // =====================================================================
+        // TAB CONTROLLER & CLIENT-SIDE CRYPTO INTERACTIONS
+        // =====================================================================
+        const signTab = document.getElementById('sign-tab');
+        const verifyTab = document.getElementById('verify-tab');
+        const decryptTab = document.getElementById('decrypt-tab');
+
+        const signSection = document.getElementById('sign-document-section');
+        const verifySection = document.getElementById('verify-document-section');
+        const decryptSection = document.getElementById('decrypt-document-section');
+
+        function switchTab(activeBtn, targetSection) {
+            [signTab, verifyTab, decryptTab].forEach(btn => btn.classList.remove('active'));
+            [signSection, verifySection, decryptSection].forEach(sec => sec.classList.add('hidden'));
+
+            activeBtn.classList.add('active');
+            targetSection.classList.remove('hidden');
+        }
+
+        signTab.addEventListener('click', () => switchTab(signTab, signSection));
+        verifyTab.addEventListener('click', () => switchTab(verifyTab, verifySection));
+        decryptTab.addEventListener('click', () => switchTab(decryptTab, decryptSection));
+
+        // Drag & Drop Setup
+        setupDropZone('dropzoneSign', 'fileToSign', 'fileToSignPreview');
+        setupDropZone('dropzoneVerifyFile', 'encryptedFile', 'encryptedFilePreview');
+        setupDropZone('dropzoneVerifyMeta', 'keysMetadataFile', 'keysMetadataFilePreview');
+        setupDropZone('dropzoneDecryptFile', 'encryptedFileDecrypt', 'encryptedFileDecryptPreview');
+        setupDropZone('dropzoneDecryptMeta', 'keysMetadataFileDecrypt', 'keysMetadataFileDecryptPreview');
+
+        // Store active object URLs so we can revoke them
+        let activeDownloadUrls = [];
+        function createManagedUrl(blob) {
+            const url = URL.createObjectURL(blob);
+            activeDownloadUrls.push(url);
+            return url;
+        }
+
+        // --- 1. Generate RSA and ECC Keys Locally ---
+        document.getElementById('generate-hybrid-keys-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('generate-hybrid-keys-btn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin w-4 h-4 mr-2 inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ` + t('btnGeneratingKeys');
+            btn.disabled = true;
+
+            try {
+                const rsaKeys = await CryptoEngine.generateRsaKeys();
+                const eccKeys = await CryptoEngine.generateEccKeys();
+
+                document.getElementById('rsaPrivateKey').value = rsaKeys.privateKey;
+                document.getElementById('eccPrivateKey').value = eccKeys.privateKey;
+
+                showToast(t('toastKeysGenerated'), 'success');
+            } catch (err) {
+                showToast(t('toastKeysGenFail') + err.message, 'error');
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        });
+
+        // --- 2. Sign & Encrypt File Locally ---
+        document.getElementById('hybrid-sign-btn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('fileToSign');
+            const rsaKey = document.getElementById('rsaPrivateKey').value.trim();
+            const eccKey = document.getElementById('eccPrivateKey').value.trim();
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                showToast(t('toastSelectFile'), 'error');
+                return;
+            }
+            if (!rsaKey || !eccKey) {
+                showToast(t('toastProvideKeys'), 'error');
+                return;
+            }
+
+            const btn = document.getElementById('hybrid-sign-btn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin w-5 h-5 mr-2 inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ` + t('btnEncrypting');
+            btn.disabled = true;
+
+            try {
+                const file = fileInput.files[0];
+                const result = await CryptoEngine.signAndEncryptDocument(file, rsaKey, eccKey);
+
+                // Set download links
+                const encUrl = createManagedUrl(result.encryptedBlob);
+                const metaUrl = createManagedUrl(result.metadataBlob);
+
+                const encLink = document.getElementById('download-encrypted-link');
+                encLink.href = encUrl;
+                encLink.download = result.encryptedFilename;
+
+                const metaLink = document.getElementById('download-keys-metadata-link');
+                metaLink.href = metaUrl;
+                metaLink.download = result.metadataFilename;
+
+                document.getElementById('hybrid-sign-result').classList.remove('hidden');
+                showToast(t('toastEncryptSuccess'), 'success');
+            } catch (err) {
+                showToast('Enkripsi gagal: ' + err.message, 'error');
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        });
+
+        // --- 3. Verify Document Integrity Locally ---
+        document.getElementById('hybrid-verify-btn').addEventListener('click', async () => {
+            const encryptedFileInput = document.getElementById('encryptedFile');
+            const metadataFileInput = document.getElementById('keysMetadataFile');
+
+            if (!encryptedFileInput.files || !encryptedFileInput.files[0]) {
+                showToast(t('toastSelectEncrypted'), 'error');
+                return;
+            }
+            if (!metadataFileInput.files || !metadataFileInput.files[0]) {
+                showToast(t('toastSelectMeta'), 'error');
+                return;
+            }
+
+            const btn = document.getElementById('hybrid-verify-btn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin w-5 h-5 mr-2 inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ` + t('btnVerifying');
+            btn.disabled = true;
+
+            try {
+                const encBuffer = await encryptedFileInput.files[0].arrayBuffer();
+                const metaText = await metadataFileInput.files[0].text();
+                let metadata;
+                try {
+                    metadata = JSON.parse(metaText);
+                } catch (e) {
+                    throw new Error('File metadata bukan format JSON yang valid!');
+                }
+
+                const result = await CryptoEngine.verifyDocument(encBuffer, metadata);
+
+                const resultContainer = document.getElementById('hybrid-verify-result');
+                const validCard = document.getElementById('hybrid-verify-valid');
+                const invalidCard = document.getElementById('hybrid-verify-invalid');
+
+                resultContainer.classList.remove('hidden');
+
+                if (result.valid) {
+                    validCard.classList.remove('hidden');
+                    invalidCard.classList.add('hidden');
+
+                    document.getElementById('original-filename').innerHTML = `<strong>${t('metaFilename')}</strong>: ${result.filename}`;
+                    document.getElementById('signature-timestamp').innerHTML = `<strong>${t('metaTimestamp')}</strong>: ${new Date(result.timestamp).toLocaleString()}`;
+                    showToast(t('toastVerifyValid'), 'success');
+                } else {
+                    validCard.classList.add('hidden');
+                    invalidCard.classList.remove('hidden');
+                    document.getElementById('error-details').textContent = result.error || t('toastVerifyInvalid');
+                    showToast(t('toastVerifyInvalid'), 'error');
+                }
+            } catch (err) {
+                showToast('Verifikasi gagal: ' + err.message, 'error');
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        });
+
+        // --- 4. Decrypt Document Locally ---
+        document.getElementById('hybrid-decrypt-btn').addEventListener('click', async () => {
+            const encryptedFileInput = document.getElementById('encryptedFileDecrypt');
+            const metadataFileInput = document.getElementById('keysMetadataFileDecrypt');
+            const rsaPrivateKey = document.getElementById('rsaPrivateKeyDecrypt').value.trim();
+
+            if (!encryptedFileInput.files || !encryptedFileInput.files[0]) {
+                showToast(t('toastSelectEncrypted'), 'error');
+                return;
+            }
+            if (!metadataFileInput.files || !metadataFileInput.files[0]) {
+                showToast(t('toastSelectMeta'), 'error');
+                return;
+            }
+            if (!rsaPrivateKey) {
+                showToast(t('toastProvideRsaDecrypt'), 'error');
+                return;
+            }
+
+            const btn = document.getElementById('hybrid-decrypt-btn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin w-5 h-5 mr-2 inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ` + t('btnDecrypting');
+            btn.disabled = true;
+
+            try {
+                const encBuffer = await encryptedFileInput.files[0].arrayBuffer();
+                const metaText = await metadataFileInput.files[0].text();
+                let metadata;
+                try {
+                    metadata = JSON.parse(metaText);
+                } catch (e) {
+                    throw new Error('File metadata bukan format JSON yang valid!');
+                }
+
+                const result = await CryptoEngine.decryptDocument(encBuffer, metadata, rsaPrivateKey);
+
+                if (!result.success) {
+                    showToast(result.error, 'error');
+                    return;
+                }
+
+                // Show result container
+                document.getElementById('hybrid-decrypt-result').classList.remove('hidden');
+
+                // Set download link
+                const decUrl = createManagedUrl(result.blob);
+                const dlLink = document.getElementById('download-decrypted-link');
+                dlLink.href = decUrl;
+                dlLink.download = result.filename;
+
+                // Handle rich media preview
+                const noPreview = document.getElementById('no-preview');
+                const imagePreview = document.getElementById('image-preview');
+                const textPreview = document.getElementById('text-preview');
+
+                noPreview.classList.add('hidden');
+                imagePreview.classList.add('hidden');
+                textPreview.classList.add('hidden');
+
+                const ext = result.filename.split('.').pop().toLowerCase();
+                const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'];
+                const textExtensions = ['txt', 'json', 'js', 'html', 'css', 'py', 'md', 'xml', 'csv', 'yaml', 'yml'];
+
+                if (imageExtensions.includes(ext)) {
+                    imagePreview.src = decUrl;
+                    imagePreview.classList.remove('hidden');
+                } else if (textExtensions.includes(ext)) {
+                    const text = new TextDecoder('utf-8').decode(result.buffer);
+                    textPreview.textContent = text;
+                    textPreview.classList.remove('hidden');
+                } else {
+                    noPreview.classList.remove('hidden');
+                    noPreview.textContent = `Pratinjau langsung tidak tersedia untuk format .${ext}. Silakan klik tombol "Download Dokumen Asli" di atas.`;
+                }
+
+                showToast(t('toastDecryptSuccess'), 'success');
+            } catch (err) {
+                showToast('Dekripsi gagal: ' + err.message, 'error');
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
